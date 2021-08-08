@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateBillsTable extends Migration
+class AddParticulars extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,9 @@ class CreateBillsTable extends Migration
      */
     public function up()
     {
-        Schema::create('bills', function (Blueprint $table) {
-            $table->id();
-            $table->string('firm_name');
-            $table->string('pan_number');
-            $table->string('vat_bill');
-            $table->string('amount');
-            $table->timestamps();
+        Schema::table('bills', function (Blueprint $table) {
+            //
+            $table->string('particulars')->after('vat_bill');
         });
     }
 
@@ -30,6 +26,8 @@ class CreateBillsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('bills');
+        Schema::table('bills', function (Blueprint $table) {
+            //
+        });
     }
 }

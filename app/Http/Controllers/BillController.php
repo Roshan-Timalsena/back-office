@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Activity;
 use App\Models\Bill;
 use App\Rules\PanRule;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -12,6 +13,7 @@ class BillController extends Controller
 {
     //
     function index(){
+        // return date('Y-m-d h:i:s a');
         return view('bill.create');
     }
 
@@ -19,7 +21,6 @@ class BillController extends Controller
         $user = Auth::id();
         
         $request->validate([
-            'date'=>"required|date",
             'firmname'=>'required|string|max:255',
             'pan'=>['required', new PanRule()],
             'photo'=>'required|image',
@@ -29,9 +30,9 @@ class BillController extends Controller
 
         $bill = new Bill;
 
-        $bill->date = $request->date;
         $bill->firm_name = $request->firmname;
         $bill->pan_number = $request->pan;
+        $bill->particulars = $request->particulars;
         $bill->amount = $request->amount;
 
         if($request->hasFile('photo')){
@@ -52,11 +53,125 @@ class BillController extends Controller
         $activity = new Activity;
 
         $activity->name = 'Bill';
-        $activity->activity_type = 'Add';
-        $activity->time = $request->date;
+        $activity->activity_type = 'Created';
+        $activity->time = $bill->created_at;
+        $activity->user_id = $user;
+        $activity->activity_on = "Bill ID: " . $bill->id;
+        $activity->save();
+
+        return redirect()->route('bill.all');
+    }
+
+    function allBills(){
+        $bills = Bill::get();
+
+        return view('bill.bills', ['bills'=>$bills, 'count'=>1]);
+    }
+
+    function getSingleBill(Bill $bill){
+        return view('bill.update', ['bill'=>$bill]);
+    }
+
+    function updateBill(Request $request){
+
+        $user = Auth::id();
+
+        $request->validate([
+            'firmname'=>'required|string|max:255',
+            'pan'=>['required', new PanRule()],
+            'photo'=>'image',
+            'particulars' => 'required|string|max:255',
+            'amount' => 'required|integer|min:10|required'
+        ]);
+
+        $bill = Bill::find($request->bill);
+        $bill->touch();
+
+        $bill->firm_name = $request->firmname;
+        $bill->pan_number = $request->pan;
+        $bill->particulars = $request->particulars;
+        $bill->amount = $request->amount;
+
+        if($request->hasFile('photo')){
+            $path = "public/photos";
+
+            $file = $request->file('photo')->getClientOriginalName();
+            $fname = pathinfo($file, PATHINFO_FILENAME);
+            $file_ext = pathinfo($file, PATHINFO_EXTENSION);
+
+            $file_name = str_replace(' ', '-', $fname).time(). '.'.$file_ext;
+
+            $request->file('photo')->storeAs($path, $file_name);
+            $bill->vat_bill = $file_name;
+        }
+
+        $bill->save();
+
+        $activity = new Activity;
+
+        $activity->name = 'Bill';
+        $activity->activity_type = 'Updated';
+        $activity->time = $bill->updated_at;
+        $activity->activity_on = "Bill ID: " . $bill->id;
         $activity->user_id = $user;
         $activity->save();
 
-        return redirect()->route('bill.form');
+        return redirect()->route('bill.all');
+
+    }
+
+    function softDeleteBill(Bill $bill){
+        $user = Auth::id();
+        $bill->delete();
+
+        $activity = new Activity;
+
+        $activity->name = 'Bill';
+        $activity->activity_type = "Deleted";
+        $activity->time = $bill->deleted_at;
+        $activity->user_id = $user;
+        $activity->activity_on = "Bill ID: ". $bill->id;
+        $activity->save();
+        return redirect()->route('bill.all');
+    }
+
+    function getTrashed(){
+        $bills = Bill::onlyTrashed()->get();
+        
+        return view('bill.trash', ['bills' => $bills, 'count' => 1]);
+    }
+
+    function restore($id){
+        $user = Auth::id();
+        Bill::onlyTrashed()->where('id','=',$id)->restore();
+        $time = Bill::where('id','=',$id)->value('updated_at');
+        $activity = new Activity;
+
+        $activity->name = "Bill";
+        $activity->activity_type = "Restored";
+        $activity->time = $time;
+        $activity->user_id = $user;
+        $activity->activity_on = "Bill ID: " . $id;
+
+        $activity->save();
+        return redirect()->route('bill.all');
+    }
+
+    function delete($id){
+
+        $user = Auth::id();
+
+        $activity = new Activity;
+
+        $activity->name = "Bill";
+        $activity->activity_type = "Permanent Delete";
+        $activity->time = Carbon::now()->toDateTimeString();
+        $activity->user_id = $user;
+        $activity->activity_on = "Bill ID: " . $id;
+
+        $activity->save();
+
+        Bill::onlyTrashed()->where('id','=',$id)->forceDelete();
+        return redirect()->route('bill.all');
     }
 }

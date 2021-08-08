@@ -70,8 +70,8 @@
 <body class="bg-light bg-gradient">
     <div class="container-fluid" align="center">
         <div class="container" style="margin-top: 80px;">
-            <h1>Add Bill</h1>
-            <form action="{{route('bill.add')}}" method="POST" enctype="multipart/form-data">
+            <h1>Update Bill</h1>
+            <form action="{{route('bill.update')}}" method="POST" enctype="multipart/form-data">
                 @csrf
                 {{-- <div class="form-group">
                     <label><b>Date</b></label>
@@ -81,13 +81,13 @@
 
                 <div class="form-group">
                     <label><b>Firm Name</b></label>
-                    <input type="text" class="form-control" name="firmname" id="firm-name" placeholder="Firm Name" value="{{old('firmname')}}">
+                    <input type="text" class="form-control" name="firmname" id="firm-name" placeholder="Firm Name" value="{{$bill->firm_name}}">
                     <span class="text-danger">@error('firmname'){{$message}} @enderror</span>
                 </div>
 
                 <div class="form-group">
                     <label><b>PAN Number/Bill No </b></label>
-                    <input type="text" class="form-control" name="pan" id="pan" placeholder="PAN Number" value="{{old('pan')}}">
+                    <input type="text" class="form-control" name="pan" id="pan" placeholder="PAN Number" value="{{$bill->pan_number}}">
                     <span class="text-danger">@error('pan'){{$message}} @enderror</span>
                 </div>
 
@@ -99,17 +99,19 @@
 
                 <div class="form-group">
                     <label><b>Particulars</b></label>
-                    <input type="text" class="form-control" name="particulars" id="particulars" placeholder="Particulars" value="{{old('particulars')}}">
+                    <input type="text" class="form-control" name="particulars" id="particulars" placeholder="Particulars" value="{{$bill->particulars}}">
                     <span class="text-danger">@error('particulars'){{$message}} @enderror</span>
                 </div>
 
                 <div class="form-group">
                     <label><b>Amount</b></label>
-                    <input type="text" class="form-control" name="amount" id="amount" placeholder="Eg: 1000" value="{{old('amount')}}">
+                    <input type="text" class="form-control" name="amount" id="amount" placeholder="Eg: 1000" value="{{$bill->amount}}">
                     <span class="text-danger">@error('amount'){{$message}} @enderror</span>
                 </div>
 
-                <input type="submit" name="submit" id="submit" value="Add Bill" class="btn btn-primary">
+                <input type="hidden" name="bill" id="bill" value="{{$bill->id}}">
+
+                <input type="submit" name="submit" id="submit" value="Update Bill" class="btn btn-primary">
             </form>
         </div>
     </div>
