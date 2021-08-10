@@ -72,7 +72,7 @@ class BillController extends Controller
         return view('bill.update', ['bill'=>$bill]);
     }
 
-    function updateBill(Request $request){
+    function updateBill(Request $request, Bill $bill){
 
         $user = Auth::id();
 
@@ -84,13 +84,13 @@ class BillController extends Controller
             'amount' => 'required|integer|min:10|required'
         ]);
 
-        $bill = Bill::find($request->bill);
-        $bill->touch();
+        $b = Bill::find($bill->id);
+        $b->touch();
 
-        $bill->firm_name = $request->firmname;
-        $bill->pan_number = $request->pan;
-        $bill->particulars = $request->particulars;
-        $bill->amount = $request->amount;
+        $b->firm_name = $request->firmname;
+        $b->pan_number = $request->pan;
+        $b->particulars = $request->particulars;
+        $b->amount = $request->amount;
 
         if($request->hasFile('photo')){
             $path = "public/photos";
@@ -102,17 +102,17 @@ class BillController extends Controller
             $file_name = str_replace(' ', '-', $fname).time(). '.'.$file_ext;
 
             $request->file('photo')->storeAs($path, $file_name);
-            $bill->vat_bill = $file_name;
+            $b->vat_bill = $file_name;
         }
 
-        $bill->save();
+        $b->save();
 
         $activity = new Activity;
 
         $activity->name = 'Bill';
         $activity->activity_type = 'Updated';
-        $activity->time = $bill->updated_at;
-        $activity->activity_on = "Bill ID: " . $bill->id;
+        $activity->time = $b->updated_at;
+        $activity->activity_on = "Bill ID: " . $b->id;
         $activity->user_id = $user;
         $activity->save();
 
@@ -121,6 +121,7 @@ class BillController extends Controller
     }
 
     function softDeleteBill(Bill $bill){
+        $this->authorize('delete', $bill);
         $user = Auth::id();
         $bill->delete();
 
@@ -142,6 +143,9 @@ class BillController extends Controller
     }
 
     function restore($id){
+
+        $this->authorize('restore', Bill::class);
+
         $user = Auth::id();
         Bill::onlyTrashed()->where('id','=',$id)->restore();
         $time = Bill::where('id','=',$id)->value('updated_at');
@@ -158,6 +162,8 @@ class BillController extends Controller
     }
 
     function delete($id){
+
+        $this->authorize('forceDelete', $id);
 
         $user = Auth::id();
 

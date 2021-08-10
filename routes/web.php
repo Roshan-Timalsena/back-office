@@ -25,11 +25,11 @@ Route::post('/add', [BillController::class, 'store'])->middleware(['auth'])->nam
 Route::get('/bills', [BillController::class, 'allBills'])->middleware(['auth'])->name('bill.all');
 
 Route::get('/bill/update/{bill:id}', [BillController::class, 'getSingleBill'])->middleware(['auth'])->name('bill.get.update');
-Route::post('/bill/update', [BillController::class, 'updatebill'])->middleware(['auth'])->name('bill.update');
+Route::post('/bill/update/{bill:id}', [BillController::class, 'updatebill'])->middleware(['auth'])->name('bill.update');
 
 Route::get('/bill/remove/{bill:id}', [BillController::class , 'softDeleteBill'])->middleware('auth')->name('bill.remove');
 
-Route::get('/bill/trash', [BillController::class, 'getTrashed'])->middleware(['auth'])->name('bill.trash');
+Route::get('/bills/trash', [BillController::class, 'getTrashed'])->middleware(['auth'])->name('bill.trash');
 
 Route::get('/bill/restore/{id}', [BillController::class, 'restore'])->middleware(['auth'])->name('bill.restore');
 

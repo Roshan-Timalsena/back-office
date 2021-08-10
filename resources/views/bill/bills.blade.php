@@ -37,13 +37,13 @@
     <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
         <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
             <li class="nav-item">
-                <a class="nav-link" href="{{route('bill.form')}}">Add Bill<span class="sr-only">(current)</span></a>
+                <a class="nav-link" href="{{ route('bill.form') }}">Add Bill<span class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item active">
-                <a class="nav-link" href="{{route('bill.all')}}">View Bills</a>
+                <a class="nav-link" href="{{ route('bill.all') }}">View Bills</a>
             </li>
             <li class="nav-item">
-                <a href="{{route('bill.trash')}}" class="nav-link">Trash</a>
+                <a href="{{ route('bill.trash') }}" class="nav-link">Trash</a>
             </li>
         </ul>
 
@@ -58,7 +58,7 @@
 </nav>
 
 <body class="bg-light bg-gradient">
-    
+
     <div class="container table-responsive py-5">
         <table class="table table-bordered table-hover">
             <thead class="thead-dark">
@@ -76,14 +76,20 @@
             <tbody>
                 @forelse ($bills as $bill)
                     <tr>
-                        <td class="down">{{$count++}}</td>
-                        <td class="down">{{$bill->updated_at}}</td>
-                        <td class="down">{{$bill->firm_name}}</td>
-                        <td class="down">{{$bill->pan_number}}</td>
-                        <td class="down"><a href="{{ asset('/storage/photos') . '/'. $bill->vat_bill}}">VAT Bill</a></td>
-                        <td class="down">{{$bill->particulars}}</td>
-                        <td class="down">{{$bill->amount}}</td>
-                        <td class="down"><a href="{{route('bill.get.update', ['bill'=>$bill->id])}}" class="btn btn-info">Edit</a>&nbsp;<a href="{{route('bill.remove',['bill'=>$bill->id])}}" class="btn btn-danger">Remove</a></td>
+                        <td class="down">{{ $count++ }}</td>
+                        <td class="down">{{ $bill->updated_at }}</td>
+                        <td class="down">{{ $bill->firm_name }}</td>
+                        <td class="down">{{ $bill->pan_number }}</td>
+                        <td class="down"><a href="{{ asset('/storage/photos') . '/' . $bill->vat_bill }}">VAT Bill</a>
+                        </td>
+                        <td class="down">{{ $bill->particulars }}</td>
+                        <td class="down">{{ $bill->amount }}</td>
+                        <td class="down">
+                            <a href="{{ route('bill.get.update', ['bill' => $bill->id]) }}">Edit</a>&nbsp;
+                            @can('delete',$bill)
+                            <a href="{{ route('bill.remove', ['bill' => $bill->id]) }}" class="text-danger">Remove</a>
+                            @endcan
+                        </td>
                     </tr>
                 @empty
                     <div class="alert alert-danger" style="margin-top: 10px;">No Bills To Show</div>

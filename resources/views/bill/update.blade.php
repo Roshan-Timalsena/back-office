@@ -71,7 +71,7 @@
     <div class="container-fluid" align="center">
         <div class="container" style="margin-top: 80px;">
             <h1>Update Bill</h1>
-            <form action="{{route('bill.update')}}" method="POST" enctype="multipart/form-data">
+            <form action="{{route('bill.update',['bill'=>$bill->id])}}" method="POST" enctype="multipart/form-data">
                 @csrf
                 {{-- <div class="form-group">
                     <label><b>Date</b></label>
@@ -108,8 +108,6 @@
                     <input type="text" class="form-control" name="amount" id="amount" placeholder="Eg: 1000" value="{{$bill->amount}}">
                     <span class="text-danger">@error('amount'){{$message}} @enderror</span>
                 </div>
-
-                <input type="hidden" name="bill" id="bill" value="{{$bill->id}}">
 
                 <input type="submit" name="submit" id="submit" value="Update Bill" class="btn btn-primary">
             </form>
