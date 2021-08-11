@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Note</title>
+    <title>Bills</title>
 
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
@@ -75,6 +75,7 @@
             </thead>
             <tbody>
                 @forelse ($bills as $bill)
+                    @can('view', $bill)
                     <tr>
                         <td class="down">{{ $count++ }}</td>
                         <td class="down">{{ $bill->updated_at }}</td>
@@ -85,12 +86,13 @@
                         <td class="down">{{ $bill->particulars }}</td>
                         <td class="down">{{ $bill->amount }}</td>
                         <td class="down">
-                            <a href="{{ route('bill.get.update', ['bill' => $bill->id]) }}">Edit</a>&nbsp;
+                            @can('update', $bill)<a href="{{ route('bill.get.update', ['bill' => $bill->id]) }}">Edit</a>@endcan&nbsp;
                             @can('delete',$bill)
-                            <a href="{{ route('bill.remove', ['bill' => $bill->id]) }}" class="text-danger">Remove</a>
+                            <a href="{{ route('bill.remove', ['bill' => $bill->id]) }}" class="text-danger">Move-To-Trash</a>
                             @endcan
                         </td>
                     </tr>
+                    @endcan
                 @empty
                     <div class="alert alert-danger" style="margin-top: 10px;">No Bills To Show</div>
                 @endforelse

@@ -93,7 +93,7 @@
                             @can('restore', $bill)<a href="{{ route('bill.restore', ['id' => $bill->id]) }}" class="text-success">Restore</a>
                             @endcan&nbsp;
                             @can('forceDelete', $bill)
-                            <a href="{{ route('bill.delete', ['id' => $bill->id]) }}" class="text-danger">Delete-Forever</a>
+                            <a href="{{ route('bill.delete', ['id' => $bill->id]) }}" class="text-danger">Delete</a>
                             @endcan
                                 
                         </td>

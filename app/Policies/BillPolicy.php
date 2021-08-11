@@ -5,6 +5,7 @@ namespace App\Policies;
 use App\Models\User;
 use App\Models\bill;
 use Illuminate\Auth\Access\HandlesAuthorization;
+use Illuminate\Support\Facades\Auth;
 
 class BillPolicy
 {
@@ -31,6 +32,11 @@ class BillPolicy
     public function view(User $user, bill $bill)
     {
         //
+        if($user->user_type == 'admin' || (Auth::check() && Auth::id()==$bill->user_id)){
+            return true;
+        } else {
+            false;
+        }
     }
 
     /**
@@ -54,6 +60,11 @@ class BillPolicy
     public function update(User $user, bill $bill)
     {
         //
+        if($user->user_type == 'admin' || (Auth::check() && Auth::id()==$bill->user_id)){
+            return true;
+        } else{
+            return false;
+        }
     }
 
     /**
@@ -66,7 +77,7 @@ class BillPolicy
     public function delete(User $user, bill $bill)
     {
         //
-        if($user->user_type == 'admin'){
+        if($user->user_type == 'admin' || (Auth::check() && Auth::id()==$bill->user_id)){
             return true;
         } else{
             return false;

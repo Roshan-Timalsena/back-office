@@ -73,11 +73,6 @@
             <h1>Update Bill</h1>
             <form action="{{route('bill.update',['bill'=>$bill->id])}}" method="POST" enctype="multipart/form-data">
                 @csrf
-                {{-- <div class="form-group">
-                    <label><b>Date</b></label>
-                    <input type="date" class="form-control" name="date" id="date" value="{{old('date')}}">
-                    <span class="text-danger">@error('date'){{$message}} @enderror</span>
-                </div> --}}
 
                 <div class="form-group">
                     <label><b>Firm Name</b></label>

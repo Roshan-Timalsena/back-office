@@ -34,6 +34,7 @@ class BillController extends Controller
         $bill->pan_number = $request->pan;
         $bill->particulars = $request->particulars;
         $bill->amount = $request->amount;
+        $bill->user_id = $user;
 
         if($request->hasFile('photo')){
             $path = "public/photos";
@@ -69,10 +70,13 @@ class BillController extends Controller
     }
 
     function getSingleBill(Bill $bill){
+        $this->authorize('update', $bill);
         return view('bill.update', ['bill'=>$bill]);
     }
 
     function updateBill(Request $request, Bill $bill){
+
+        $this->authorize('update', $bill);
 
         $user = Auth::id();
 

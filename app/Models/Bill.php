@@ -10,4 +10,7 @@ class Bill extends Model
 {
     use HasFactory;
     use SoftDeletes;
+    protected function user(){
+        return $this->belongsTo(user::class);
+    }
 }
