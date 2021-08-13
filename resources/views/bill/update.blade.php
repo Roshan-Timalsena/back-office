@@ -55,6 +55,9 @@
             <li class="nav-item">
                 <a href="{{route('bill.trash')}}" class="nav-link">Trash</a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Staff Details</a>
+            </li>
         </ul>
 
         <a href="{{ route('logout') }}"

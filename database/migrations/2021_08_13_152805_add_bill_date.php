@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddUserBills extends Migration
+class AddBillDate extends Migration
 {
     /**
      * Run the migrations.
@@ -15,7 +15,7 @@ class AddUserBills extends Migration
     {
         Schema::table('bills', function (Blueprint $table) {
             //
-            // $table->foreignId('user_id')->constrained('users')->after('created_at');
+            $table->date('bil_date')->after('id')->nullable();
         });
     }
 

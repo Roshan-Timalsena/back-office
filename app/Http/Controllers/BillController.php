@@ -21,6 +21,7 @@ class BillController extends Controller
         $user = Auth::id();
         
         $request->validate([
+            'billdate' => 'required|date',
             'firmname'=>'required|string|max:255',
             'pan'=>['required', new PanRule()],
             'photo'=>'required|image',
@@ -31,6 +32,7 @@ class BillController extends Controller
         $bill = new Bill;
 
         $bill->firm_name = $request->firmname;
+        $bill->bil_date = $request->billdate;
         $bill->pan_number = $request->pan;
         $bill->particulars = $request->particulars;
         $bill->amount = $request->amount;
@@ -151,13 +153,13 @@ class BillController extends Controller
         $this->authorize('restore', Bill::class);
 
         $user = Auth::id();
-        Bill::onlyTrashed()->where('id','=',$id)->restore();
-        $time = Bill::where('id','=',$id)->value('updated_at');
+        Bill::onlyTrashed()->find($id)->restore();
+
         $activity = new Activity;
 
         $activity->name = "Bill";
         $activity->activity_type = "Restored";
-        $activity->time = $time;
+        $activity->time = Carbon::now()->toDateTimeString();;
         $activity->user_id = $user;
         $activity->activity_on = "Bill ID: " . $id;
 

@@ -55,6 +55,9 @@
             <li class="nav-item">
                 <a href="{{route('bill.trash')}}" class="nav-link">Trash</a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Staff Details</a>
+            </li>
         </ul>
 
         <a href="{{ route('logout') }}"
@@ -73,6 +76,12 @@
             <h1>Add Bill</h1>
             <form action="{{route('bill.add')}}" method="POST" enctype="multipart/form-data">
                 @csrf
+
+                <div class="form-group">
+                    <label><b>Bill Date</b></label>
+                    <input class="form-control" type="date" name="billdate" id="bill-date" placeholder="Bill Date" value="{{old('billdate')}}">
+                    <span class="text-danger">@error('billdate'){{$message}} @enderror</span>
+                </div>
 
                 <div class="form-group">
                     <label><b>Firm Name</b></label>

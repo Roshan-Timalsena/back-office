@@ -91,13 +91,11 @@ class BillPolicy
      * @param  \App\Models\bill  $bill
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function restore(User $user, bill $bill)
+    public function restore(User $user)
     {
         //
         if($user->user_type == 'admin'){
             return true;
-        } else{
-            return false;
         }
     }
 

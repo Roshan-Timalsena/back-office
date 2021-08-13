@@ -45,6 +45,9 @@
             <li class="nav-item">
                 <a href="{{ route('bill.trash') }}" class="nav-link">Trash</a>
             </li>
+            <li class="nav-item">
+                <a href="#" class="nav-link">Staff Details</a>
+            </li>
         </ul>
 
         <a href="{{ route('logout') }}"
@@ -59,12 +62,14 @@
 
 <body class="bg-light bg-gradient">
 
-    <div class="container table-responsive py-5">
+    <div class="container-fluid table-responsive py-5">
         <table class="table table-bordered table-hover">
             <thead class="thead-dark">
                 <tr>
                     <th scope="col">#</th>
-                    <th scope="col">Date and Time</th>
+                    <th scope="col">Bill Date</th>
+                    <th scope="col">Created At</th>
+                    <th scope="col">Updated At</th>
                     <th scope="col">Firm Name</th>
                     <th scope="col">PAN Number/Bill No.</th>
                     <th scope="col">VAT Bill</th>
@@ -78,6 +83,8 @@
                     @can('view', $bill)
                     <tr>
                         <td class="down">{{ $count++ }}</td>
+                        <td class="down">{{ $bill->bil_date}}</td>
+                        <td class="down">{{ $bill->created_at }}</td>
                         <td class="down">{{ $bill->updated_at }}</td>
                         <td class="down">{{ $bill->firm_name }}</td>
                         <td class="down">{{ $bill->pan_number }}</td>
@@ -86,9 +93,9 @@
                         <td class="down">{{ $bill->particulars }}</td>
                         <td class="down">{{ $bill->amount }}</td>
                         <td class="down">
-                            @can('update', $bill)<a href="{{ route('bill.get.update', ['bill' => $bill->id]) }}">Edit</a>@endcan&nbsp;
+                            @can('update', $bill)<a class="btn btn-info" href="{{ route('bill.get.update', ['bill' => $bill->id]) }}">Edit</a>@endcan&nbsp;
                             @can('delete',$bill)
-                            <a href="{{ route('bill.remove', ['bill' => $bill->id]) }}" class="text-danger">Move-To-Trash</a>
+                            <a href="{{ route('bill.remove', ['bill' => $bill->id]) }}" class="btn btn-danger">Remove</a>
                             @endcan
                         </td>
                     </tr>

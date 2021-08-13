@@ -26,7 +26,7 @@ class PanRule implements Rule
     public function passes($attribute, $value)
     {
         //
-        if(preg_match("/^([a-zA-Z]){5}([0-9]){4}([a-zA-Z]){1}?$/", $value)){
+        if(preg_match("/^([A-Z]){5}([0-9]){4}([A-Z]){1}?$/", $value)){
             return true;
         } else { 
             return false;
