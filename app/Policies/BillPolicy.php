@@ -48,6 +48,9 @@ class BillPolicy
     public function create(User $user)
     {
         //
+        if($user->user_type == 'admin') {
+            return true;
+        }
     }
 
     /**

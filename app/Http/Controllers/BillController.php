@@ -8,16 +8,21 @@ use App\Rules\PanRule;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\DataTables\BillDataTable;
 
 class BillController extends Controller
 {
     //
     function index(){
         // return date('Y-m-d h:i:s a');
+        $this->authorize('create', Bill::class);
         return view('bill.create');
     }
 
     function store(Request $request){
+
+        $this->authorize('create', Bill::class);
+
         $user = Auth::id();
         
         $request->validate([
@@ -66,6 +71,7 @@ class BillController extends Controller
     }
 
     function allBills(){
+
         $bills = Bill::get();
 
         return view('bill.bills', ['bills'=>$bills, 'count'=>1]);

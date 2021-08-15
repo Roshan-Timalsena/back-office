@@ -16,10 +16,11 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return redirect('/register');
+    return redirect('/login');
 });
 
-Route::get('/dashboard', [BillController::class, 'index'])->middleware(['auth'])->name('bill.form');
+Route::get('/dashboard', [BillController::class, 'allBills'])->middleware(['auth'])->name('bill.form');
+Route::get('/bill/add', [BillController::class, 'index'])->middleware(['auth'])->name('bill.new');
 Route::post('/add', [BillController::class, 'store'])->middleware(['auth'])->name('bill.add');
 
 Route::get('/bills', [BillController::class, 'allBills'])->middleware(['auth'])->name('bill.all');
