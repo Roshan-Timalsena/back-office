@@ -48,7 +48,7 @@
             </li>
 
             <li class="nav-item">
-                <a href="#" class="nav-link">Staff</a>
+                <a href="{{route('staff.all')}}" class="nav-link">Staff</a>
             </li>
 
             <li class="nav-item" style="float: right;">
@@ -70,8 +70,8 @@
     @can('create', App\Models\Bill::class)
         <a href="{{route('bill.new')}}" style="margin-top: 60px;" class="btn btn-primary">Add New Bill</a>
     @endcan
-    <div class="container-fluid table-responsive py-5">
-        <table class="table table-bordered table-hover" style="" id="datatable">
+    <div class="container-fluid table-responsive py-5" style="margin-top: 15px;">
+        <table class="table table-bordered table-hover" id="datatable">
             <thead class="thead-dark">
                 <tr>
                     <th scope="col">#</th>

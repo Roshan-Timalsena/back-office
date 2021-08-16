@@ -7,15 +7,18 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Bills</title>
 
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
-    {{-- <link href="{{ asset('css/app.css') }}" rel="stylesheet"> --}}
+    <link href="https://cdn.datatables.net/1.10.25/css/dataTables.bootstrap5.min.css">
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj" crossorigin="anonymous">
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj" crossorigin="anonymous">
     </script>
 
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
+    <script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.25/js/dataTables.bootstrap5.min.js"></script>
     <style>
         .bg-black {
             background-color: #000000;
@@ -39,13 +42,13 @@
             </li>
 
             <li class="nav-item">
-                <a href="#" class="nav-link">Staff</a>
+                <a href="{{route('staff.all')}}" class="nav-link">Staff</a>
             </li>
-    
+
             <li class="nav-item active">
                 <a href="{{ route('bill.trash') }}" class="nav-link active">Trash</a>
             </li>
-            
+
         </ul>
 
         <a href="{{ route('logout') }}"
@@ -60,8 +63,8 @@
 
 <body class="bg-light bg-gradient">
 
-    <div class="container-fluid table-responsive py-5">
-        <table class="table table-bordered table-hover">
+    <div class="container-fluid table-responsive py-5" style="margin-top: 15px;">
+        <table class="table table-bordered table-hover" id="trashTable">
             <thead class="thead-dark">
                 <tr>
                     <th scope="col">#</th>
@@ -77,27 +80,29 @@
             <tbody>
                 @forelse ($bills as $bill)
                     @can('view', $bill)
-                    <tr>
-                        <td class="down">{{ $count++ }}</td>
-                        <td class="down">{{ $bill->deleted_at }}</td>
-                        <td class="down">{{ $bill->firm_name }}</td>
-                        <td class="down">{{ $bill->pan_number }}</td>
-                        <td class="down"><a href="{{ asset('/storage/photos') . '/' . $bill->vat_bill }}">VAT Bill</a>
-                        </td>
-                        <td class="down">{{ $bill->particulars }}</td>
-                        <td class="down">{{ $bill->amount }}</td>
-                        <td class="down">
-                            @cannot('restore',$bill)
-                                <p class="text-danger">Not Allowed.</p>
-                            @endcannot
-                            @can('restore', $bill)<a href="{{ route('bill.restore', ['id' => $bill->id]) }}" class="btn btn-success">Restore</a>
-                            @endcan&nbsp;
-                            @can('forceDelete', $bill)
-                            <a href="{{ route('bill.delete', ['id' => $bill->id]) }}" class="btn btn-danger">Delete</a>
-                            @endcan
-                                
-                        </td>
-                    </tr>
+                        <tr>
+                            <td class="down">{{ $count++ }}</td>
+                            <td class="down">{{ $bill->deleted_at }}</td>
+                            <td class="down">{{ $bill->firm_name }}</td>
+                            <td class="down">{{ $bill->pan_number }}</td>
+                            <td class="down"><a href="{{ asset('/storage/photos') . '/' . $bill->vat_bill }}">VAT Bill</a>
+                            </td>
+                            <td class="down">{{ $bill->particulars }}</td>
+                            <td class="down">{{ $bill->amount }}</td>
+                            <td class="down">
+                                @cannot('restore', $bill)
+                                    <p class="text-danger">Not Allowed.</p>
+                                @endcannot
+                                @can('restore', $bill)<a href="{{ route('bill.restore', ['id' => $bill->id]) }}"
+                                        class="btn btn-success">Restore</a>
+                                @endcan&nbsp;
+                                @can('forceDelete', $bill)
+                                    <a href="{{ route('bill.delete', ['id' => $bill->id]) }}"
+                                        class="btn btn-danger">Delete</a>
+                                @endcan
+
+                            </td>
+                        </tr>
                     @endcan
                 @empty
                     <div class="alert alert-danger" style="margin-top: 10px;">Empty Trash</div>
@@ -106,4 +111,9 @@
         </table>
     </div>
 
+    <script>
+        $(document).ready( function () {
+            $('#trashTable').DataTable();
+        });
+    </script>
 </body>

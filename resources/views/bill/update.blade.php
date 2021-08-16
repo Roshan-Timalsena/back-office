@@ -33,7 +33,7 @@
             </li>
 
             <li class="nav-item">
-                <a class="nav-link" href="#">Staff</a>
+                <a class="nav-link" href="{{route('staff.all')}}">Staff</a>
             </li>
 
             <li class="nav-item">
