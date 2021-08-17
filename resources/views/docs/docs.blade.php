@@ -5,15 +5,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Staffs</title>
+    <title>Documents</title>
 
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
-    {{-- <link href="{{ asset('css/app.css') }}" rel="stylesheet"> --}}
-
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
 
     <link href="https://cdn.datatables.net/1.10.25/css/dataTables.bootstrap5.min.css">
 
@@ -30,6 +26,7 @@
         .bg-black {
             background-color: #000000;
         }
+
     </style>
 </head>
 
@@ -47,11 +44,11 @@
             </li>
 
             <li class="nav-item">
-                <a href="{{ route('staff.all') }}" class="nav-link active">Staff</a>
+                <a href="{{ route('staff.all') }}" class="nav-link">Staff</a>
             </li>
 
             <li class="nav-item">
-                <a href="{{route('docs.all')}}" class="nav-link">Documents</a>
+                <a href="{{ route('docs.all') }}" class="nav-link active">Documents</a>
             </li>
 
             <li class="nav-item" style="float: right;">
@@ -70,51 +67,38 @@
 </nav>
 
 <body class="bg-light bg-gradient">
-    @can('create', App\Models\User::class)<a href="{{ route('staff.new') }}" class="btn btn-primary"
-        style="margin-top: 60px;">Add New Staff</a>@endcan
-    <div class="container-fluid table-responsive py-5" style="margin-top: 10px;">
-        <table class="table table-bordered table-hover" style="" id="stafftable">
+    <a href="{{ route('docs.new') }}" style="margin-top: 60px;" class="btn btn-primary">Add New Document</a>
+
+    <div class="container-fluid table-responsive py-5" style="margin-top: 15px;">
+        <table class="table table-bordered table-hover" id="docstable">
             <thead class="thead-dark">
                 <tr>
                     <th scope="col">#</th>
                     <th scope="col">Name</th>
-                    <th scope="col">Email</th>
-                    <th scope="col">User Type</th>
+                    <th scope="col">Description</th>
+                    <th scope="col">Images</th>
+                    <th scope="col">Type</th>
+                    <th scope="col">Tags</th>
                     <th scope="col">Action</th>
                 </tr>
             </thead>
             <tbody>
-                @forelse ($staffs as $staff)
-                    @can('view', $staff)
-                        <tr>
-                            <td class="down">{{ $count++ }}</td>
-                            <td class="down">{{ $staff->name }}</td>
-                            <td class="down">{{ $staff->email }}</td>
-
-
-                            <td class="down">
-                                <ul style="list-style: none;">
-                                @foreach ($staff->user_type as $role)
-                                    <li>{{$role}}</li>
-                                @endforeach
-                                </ul>
-                            </td>
-
-                            <td class="down">@cannot('update', $staff) <p class="text-danger">Not Allowed</p> @endcannot @can('update', $staff)<a href="#">Edit</a>@endcan &nbsp; @can('remove', $staff)<a href="#">Delete</a>@endcan</td>
+                @forelse ($docs as $doc)
+                    <tr>
+                        <td class="down">{{ $count++ }}</td>
+                        <td class="down">{{ $doc->document_name }}</td>
+                        <td class="down">{{ $doc->document_desc }}</td>
+                        <td class="down">{{ $doc->images }}</td>
+                        <td class="down">{{ $doc->document_type }}</td>
+                        <td class="down">{{ $doc->tags }}</td>
+                        <td class="down"><a href="#">Edit</a>&nbsp;<a href="#">Remove</a></td>
                     </tr>
-                @endcan
-            @empty
-                <tr>
-                    <td class="down">No Records Found</td>
-                </tr>
-            @endforelse
-        </tbody>
-    </table>
-
-    <script>
-        $(document).ready(function() {
-            $('#stafftable').DataTable();
-        });
-    </script>
-</div>
+                @empty
+                    <tr>
+                        <td class="down"><p class="text-danger">No Documents Available</p></td>
+                    </tr>
+                @endforelse
+            </tbody>
+        </table>
+    </div>
 </body>

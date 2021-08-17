@@ -15,7 +15,7 @@ class AddUserType extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             //
-            $table->string('user_type')->default('staff');
+            $table->json('user_type')->after('password');
         });
     }
 

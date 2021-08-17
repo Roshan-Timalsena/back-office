@@ -1,9 +1,11 @@
 <?php
 
 use App\Http\Controllers\BillController;
+use App\Http\Controllers\DocumentController;
 use App\Http\Controllers\StaffController;
 use App\Models\Bill;
 use Illuminate\Support\Facades\Route;
+use PhpParser\Comment\Doc;
 
 /*
 |--------------------------------------------------------------------------
@@ -38,7 +40,14 @@ Route::get('/bill/restore/{id}', [BillController::class, 'restore'])->middleware
 Route::get('/bill/delete/{id}', [BillController::class, 'delete'])->middleware(['auth'])->name('bill.delete');
 
 Route::get('/staffs', [StaffController::class, 'index'])->middleware(['auth'])->name('staff.all');
+
 Route::get('/staff/add', [StaffController::class, 'addStaff'])->middleware(['auth'])->name('staff.new');
-Route::post('/add', [StaffController::class, 'store'])->middleware(['auth'])->name('staff.add');
+
+Route::post('/staff/add', [StaffController::class, 'store'])->middleware(['auth'])->name('staff.add');
+
+Route::get('/documents', [DocumentController::class, 'index'])->middleware(['auth'])->name('docs.all');
+
+Route::get('document/add', [DocumentController::class, 'addDocs'])->middleware(['auth'])->name('docs.new');
+Route::post('document/add', [DocumentController::class, 'store'])->middleware(['auth'])->name('docs.add');
 
 require __DIR__.'/auth.php';

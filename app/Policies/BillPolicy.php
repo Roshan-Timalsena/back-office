@@ -32,10 +32,11 @@ class BillPolicy
     public function view(User $user, bill $bill)
     {
         //
-        if($user->user_type == 'admin' || (Auth::check() && Auth::id()==$bill->user_id)){
-            return true;
-        } else {
-            false;
+        $types = $user->user_type;
+        foreach($types as $type){
+            if($type == 'admin' || $type == 'billAll' || $type == 'billRead' || (Auth::check() && Auth::id()==$bill->user_id)){
+                return true;
+            }
         }
     }
 
@@ -48,8 +49,12 @@ class BillPolicy
     public function create(User $user)
     {
         //
-        if($user->user_type == 'admin') {
-            return true;
+
+        $types = $user->user_type;
+        foreach($types as $type){
+            if($type == 'admin' || $type == 'billAll' || $type == 'billCreate'){
+                return true;
+            }
         }
     }
 
@@ -63,10 +68,11 @@ class BillPolicy
     public function update(User $user, bill $bill)
     {
         //
-        if($user->user_type == 'admin' || (Auth::check() && Auth::id()==$bill->user_id)){
-            return true;
-        } else{
-            return false;
+        $types = $user->user_type;
+        foreach($types as $type){
+            if($type == 'admin' || $type == 'billAll' || $type == 'billUpdate'){
+                return true;
+            }
         }
     }
 
@@ -80,10 +86,11 @@ class BillPolicy
     public function delete(User $user, bill $bill)
     {
         //
-        if($user->user_type == 'admin' || (Auth::check() && Auth::id()==$bill->user_id)){
-            return true;
-        } else{
-            return false;
+        $types = $user->user_type;
+        foreach($types as $type){
+            if($type == 'admin' || $type == 'billAll' || $type == 'billDelete'){
+                return true;
+            }
         }
     }
 
@@ -114,8 +121,6 @@ class BillPolicy
         //
         if($user->user_type == 'admin'){
             return true;
-        } else{
-            return false;
         }
     }
 }

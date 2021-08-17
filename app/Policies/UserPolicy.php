@@ -23,31 +23,43 @@ class UserPolicy
 
     public function view(User $user, User $u)
     {
-        //
-        if($user->user_type == 'admin' || (Auth::check() && Auth::id() == $u->id)){
-            return true;
+        $types = $user->user_type;
+        foreach($types as $type){
+            if($type == 'admin' || (Auth::check() && Auth::id() == $u->id)){
+                return true;
+            }
         }
     }
 
     public function create(User $user)
     {
         //
-        if($user->user_type == 'admin') {
-            return true;
+        $types = $user->user_type;
+        foreach($types as $type){
+            if($type == 'admin'){
+                return true;
+            }
         }
     }
 
     public function update(User $user, User $u)
     {
         //
-        if($user->user_type == 'admin'){
-            return true;
+        $types = $user->user_type;
+        foreach($types as $type){
+            if($type == 'admin'){
+                return true;
+            }
         }
     }
 
-    public function remove(User $user, User $u){
-        if($user->user_type == 'admin'){
-            return true;
+    public function remove(User $user, User $u)
+    {
+        $types = $user->user_type;
+        foreach($types as $type){
+            if($type == 'admin'){
+                return true;
+            }
         }
     }
 }

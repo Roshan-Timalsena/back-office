@@ -45,6 +45,10 @@
                 <a href="{{route('staff.all')}}" class="nav-link">Staff</a>
             </li>
 
+            <li class="nav-item">
+                <a href="{{route('docs.all')}}" class="nav-link">Documents</a>
+            </li>
+
             <li class="nav-item active">
                 <a href="{{ route('bill.trash') }}" class="nav-link active">Trash</a>
             </li>

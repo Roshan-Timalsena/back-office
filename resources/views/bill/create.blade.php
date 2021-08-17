@@ -7,8 +7,10 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Bills</title>
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+    {{-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous"> --}}
 
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
     <style>
         .bg-black {
@@ -37,6 +39,10 @@
             </li>
 
             <li class="nav-item">
+                <a href="{{route('docs.all')}}" class="nav-link">Documents</a>
+            </li>
+
+            <li class="nav-item">
                 <a href="{{route('bill.trash')}}" class="nav-link">Trash</a>
             </li>
             
@@ -56,7 +62,7 @@
     <div class="container-fluid" align="center">
         <div class="container" style="margin-top: 80px;">
             <h1>Add Bill</h1>
-            <form action="{{route('bill.add')}}" method="POST" enctype="multipart/form-data">
+            <form action="/add" method="POST" enctype="multipart/form-data">
                 @csrf
 
                 <div class="form-group">
@@ -64,37 +70,37 @@
                     <input class="form-control" type="date" name="billdate" id="bill-date" placeholder="Bill Date" value="{{old('billdate')}}">
                     <span class="text-danger">@error('billdate'){{$message}} @enderror</span>
                 </div>
-                <br>
+    
                 <div class="form-group">
                     <label><b>Firm Name</b></label>
                     <input type="text" class="form-control" name="firmname" id="firm-name" placeholder="Firm Name" value="{{old('firmname')}}">
                     <span class="text-danger">@error('firmname'){{$message}} @enderror</span>
                 </div>
-                <br>
+    
                 <div class="form-group">
                     <label><b>PAN Number/Bill No </b></label>
                     <input type="text" class="form-control" name="pan" id="pan" placeholder="PAN Number" value="{{old('pan')}}">
                     <span class="text-danger">@error('pan'){{$message}} @enderror</span>
                 </div>
-                <br>
+    
                 <div class="form-group">
                     <label><b>VAT Bill (Photo)</b></label>
                     <input type="file" class="form-control" name="photo" id="photo">
                     <span class="text-danger">@error('photo'){{$message}} @enderror</span>
                 </div>
-                <br>
+    
                 <div class="form-group">
                     <label><b>Particulars</b></label>
                     <input type="text" class="form-control" name="particulars" id="particulars" placeholder="Particulars" value="{{old('particulars')}}">
                     <span class="text-danger">@error('particulars'){{$message}} @enderror</span>
                 </div>
-                <br>
+    
                 <div class="form-group">
                     <label><b>Amount</b></label>
                     <input type="text" class="form-control" name="amount" id="amount" placeholder="Eg: 1000" value="{{old('amount')}}">
                     <span class="text-danger">@error('amount'){{$message}} @enderror</span>
                 </div>
-                <br>
+    
                 <input type="submit" name="submit" id="submit" value="Add Bill" class="btn btn-primary">
             </form>
         </div>

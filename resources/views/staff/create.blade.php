@@ -59,6 +59,10 @@
                 <a href="{{ route('staff.all') }}" class="nav-link active">Staff</a>
             </li>
 
+            <li class="nav-item">
+                <a href="{{route('docs.all')}}" class="nav-link">Documents</a>
+            </li>
+
             <li class="nav-item" style="float: right;">
                 <a href="{{ route('bill.trash') }}" class="nav-link">Trash</a>
             </li>
@@ -83,36 +87,42 @@
 
                 <div class="form-group">
                     <label><b>Staff Name</b></label>
-                    <input class="form-control" type="text" name="name" id="staffname" placeholder="Staff Name"
-                        value="{{ old('name') }}">
-                    <span class="text-danger">@error('email'){{ $message }} @enderror</span>
+                    <input class="form-control" type="text" name="staffname" id="staffname" placeholder="Staff Name" value="{{ old('staffname') }}">
+                    <span class="text-danger">@error('staffname'){{ $message }} @enderror</span>
                 </div>
 
                 <div class="form-group">
                     <label><b>Staff Email</b></label>
-                    <input class="form-control" type="email" name="email" id="staffemail" placeholder="Staff Email"
-                        value="{{ old('email') }}">
+                    <input class="form-control" type="email" name="email" id="staffemail" placeholder="Staff Email" value="{{ old('email') }}">
                     <span class="text-danger">@error('email'){{ $message }} @enderror</span>
+                </div>
+
+                <div class="form-group">
+                    <label><b>Password</b></label>
+                    <input class="form-control" type="password" name="password" id="password" placeholder="Password" value="{{ old('password') }}">
+                    <span class="text-danger">@error('password'){{ $message }} @enderror</span>
                 </div>
 
                 <div class="form-group">
                     <label><b>Staff Roles</b></label>
                     <ul>
                         <li>
-                            <input name="ba" value="ba" type="checkbox" id="option"><label for="option"><b>Bills</b></label>
+                            <input name="bill" value="ba" type="checkbox" id="option"><label for="option"><b>Bills</b></label>
                             <ul>
-                                <li><input name="bc" value="bc" type="checkbox" class="subOption"> Create</li>
-                                <li><input name="br" value="br" type="checkbox" class="subOption"> Read</li>
-                                <li><input name="bu" value="bu" type="checkbox" class="subOption"> Update</li>
-                                <li><input name="bd" value="bd" type="checkbox" class="subOption"> Delete</li>
+                                <li><input name="billCreate" value="bc" type="checkbox" class="subOption"> Create</li>
+                                <li><input name="billRead" value="br" type="checkbox" class="subOption"> Read</li>
+                                <li><input name="billUpdate" value="bu" type="checkbox" class="subOption"> Update</li>
+                                <li><input name="billDelete" value="bd" type="checkbox" class="subOption"> Delete</li>
                             </ul>
                         </li>
                     </ul>
 
+                    <span class="text-danger">@error('bill') {{$message}} @enderror</span>
+
 
                     {{-- <ul>
                         <li>
-                            <input type="checkbox" id="option2"><label for="option"><b>Fruits</b></label>
+                            <input name='frui' type="checkbox" id="option2"><label for="option"><b>Fruits</b></label>
                             <ul>
                                 <li><label><input type="checkbox" class="subOption2"> Apple</label></li>
                                 <li><label><input type="checkbox" class="subOption2"> Banana</label></li>
@@ -120,6 +130,7 @@
                             </ul>
                         </li>
                     </ul> --}}
+
                 </div>
                 <input type="submit" name="submit" id="submit" value="Add New Staff" class="btn btn-primary">
             </form>
