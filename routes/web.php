@@ -49,5 +49,6 @@ Route::get('/documents', [DocumentController::class, 'index'])->middleware(['aut
 
 Route::get('document/add', [DocumentController::class, 'addDocs'])->middleware(['auth'])->name('docs.new');
 Route::post('document/add', [DocumentController::class, 'store'])->middleware(['auth'])->name('docs.add');
+ROute::post('/document/drop', [DocumentController::class, 'docStore'])->middleware(['auth'])->name('docs.drop');
 
 require __DIR__.'/auth.php';

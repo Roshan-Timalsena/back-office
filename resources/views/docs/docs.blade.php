@@ -85,12 +85,32 @@
             <tbody>
                 @forelse ($docs as $doc)
                     <tr>
+                        @php
+                            $file = $doc->images;
+                            $new = explode(',', $file);
+                            $tags = explode(',',$doc->tags);
+                        @endphp
                         <td class="down">{{ $count++ }}</td>
                         <td class="down">{{ $doc->document_name }}</td>
                         <td class="down">{{ $doc->document_desc }}</td>
-                        <td class="down">{{ $doc->images }}</td>
+
+                        <td class="down">
+                            @foreach ($new as $n )
+                                <li style="list-style: none;">
+                                    <a href="{{ asset('/storage/docs') . '/' . $n }}">{{ $n }}</a>
+                                </li>
+                            @endforeach
+                        </td>
+
                         <td class="down">{{ $doc->document_type }}</td>
-                        <td class="down">{{ $doc->tags }}</td>
+
+                        <td class="down">
+                            @foreach ($tags as $tag)
+                                <li style="list-style: none;">#{{$tag}}</li>
+                            @endforeach
+                        </td>
+
+
                         <td class="down"><a href="#">Edit</a>&nbsp;<a href="#">Remove</a></td>
                     </tr>
                 @empty
@@ -101,4 +121,10 @@
             </tbody>
         </table>
     </div>
+
+    <script>
+        $(document).ready( function () {
+            $('#docstable').DataTable();
+        });
+    </script>
 </body>

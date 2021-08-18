@@ -15,7 +15,7 @@ class AddActivityOn extends Migration
     {
         Schema::table('activities', function (Blueprint $table) {
             //
-            $table->string('activity_on');
+            $table->string('activity_on')->after('user_id');
         });
     }
 
