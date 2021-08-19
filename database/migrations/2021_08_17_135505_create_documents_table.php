@@ -17,7 +17,6 @@ class CreateDocumentsTable extends Migration
             $table->id();
             $table->string('document_name');
             $table->string('document_desc')->nullable();
-            $table->string('images');
             $table->enum('document_type', ['invoice', 'contract', 'note', 'voucher']);
             $table->json('tags');
             $table->timestamps();

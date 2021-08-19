@@ -77,26 +77,27 @@
     </div>
 </nav>
 
+
 <body class="bg-light bg-gradient">
 
     <div class="container-fluid" align="center">
         <div class="container" style="margin-top: 80px;">
             <h1>Add Document</h1>
 
-            <form action="{{ route('docs.add') }}" method="POST" id="docs">
+            <form action="{{ route('docs.update',['document'=>$doc->id]) }}" method="POST" id="docsupdate">
                 @csrf
 
                 <div class="form-group">
                     <label><b>Document Name</b></label>
                     <input class="form-control" type="text" name="name" id="name" placeholder="Document Name"
-                        value="{{ old('name') }}">
+                        value="{{ $doc->document_name }}">
                     <span class="text-danger">@error('name'){{ $message }} @enderror</span>
                 </div>
 
                 <div class="form-group">
                     <label><b>Document Description (OPTIONAL)</b></label>
                     <input class="form-control" type="text" name="description" id="description"
-                        placeholder="Document Description" value="{{ old('description') }}">
+                        placeholder="Document Description" value="{{ $doc->document_desc }}">
                     <span class="text-danger">@error('description'){{ $message }} @enderror</span>
                 </div>
 
@@ -116,7 +117,7 @@
                     <label><b>Tags</b></label>
                     <input type="text" class="form-control tagin" data-transform="input => input.toLowerCase()"
                         name="tags" id="tags" data-placeholder="Add a tag... (then press comma)"
-                        value="{{ old('tags') }}">
+                        value="{{ $doc->tags }}">
                     <span class="text-danger">@error('tags'){{ $message }} @enderror</span>
                 </div>
             </form>
@@ -124,7 +125,7 @@
             <div class="container">
                 <h3 class="text-center">Upload Files</h3>
                 <p class="text-center">Click <strong>"Upload"</strong> After You have Selected All Files</p>
-                <span class="text-danger">@error('file') {{$message}} @enderror</span>
+                <span class="text-danger">@error('file') {{ $message }} @enderror</span>
                 <form method="POST" enctype="multipart/form-data" class="dropzone dz-clickable" id="file-upload">
                     @csrf
                     <div class="dz-default dz-message"><span>Or Drop Multiple Files Here...</span></div>
@@ -139,6 +140,7 @@
     </div>
 
     <script src="https://raw.githack.com/darkterminal/tagin/master/dist/js/tagin.min.js"></script>
+
     <script>
         tagin(document.querySelector('.tagin'));
     </script>
@@ -157,7 +159,7 @@
             success: function(file, res) {
                 if (res.message == 'success') {
                     let input = "<input type='text' name='file' style='display:none;' value='" + res.file +"'>";
-                    $('#docs').append(input);
+                    $('#docsupdate').append(input);
                 }
             }
 
@@ -168,7 +170,7 @@
         })
 
         $('#upload').on('click', function() {
-            $('#docs').submit();
+            $('#docsupdate').submit();
         });
     </script>
 </body>

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Activity;
 use App\Models\Bill;
+use App\Models\Document;
 use App\Rules\PanRule;
 use Carbon\Carbon;
 use Illuminate\Http\Request;

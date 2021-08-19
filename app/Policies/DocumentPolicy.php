@@ -3,11 +3,11 @@
 namespace App\Policies;
 
 use App\Models\User;
-use App\Models\bill;
+use App\Models\document;
 use Illuminate\Auth\Access\HandlesAuthorization;
 use Illuminate\Support\Facades\Auth;
 
-class BillPolicy
+class DocumentPolicy
 {
     use HandlesAuthorization;
 
@@ -26,15 +26,15 @@ class BillPolicy
      * Determine whether the user can view the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\bill  $bill
+     * @param  \App\Models\document  $document
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function view(User $user, bill $bill)
+    public function view(User $user, document $document)
     {
         //
         $types = $user->user_type;
         foreach($types as $type){
-            if($type == 'admin' || $type == 'billAll' || $type == 'billRead' || (Auth::check() && Auth::id()==$bill->user_id)){
+            if($type == 'admin' || $type == 'docsAll' || $type == 'docsRead' || (Auth::check() && Auth::id()==$document->user_id)){
                 return true;
             }
         }
@@ -49,10 +49,9 @@ class BillPolicy
     public function create(User $user)
     {
         //
-
         $types = $user->user_type;
         foreach($types as $type){
-            if($type == 'admin' || $type == 'billAll' || $type == 'billCreate'){
+            if($type == 'admin' || $type == 'docsAll' || $type == 'docsCreate'){
                 return true;
             }
         }
@@ -62,15 +61,15 @@ class BillPolicy
      * Determine whether the user can update the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\bill  $bill
+     * @param  \App\Models\document  $document
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function update(User $user, bill $bill)
+    public function update(User $user, document $document)
     {
         //
         $types = $user->user_type;
         foreach($types as $type){
-            if($type == 'admin' || $type == 'billAll' || $type == 'billUpdate'){
+            if($type == 'admin' || $type == 'docsAll' || $type == 'docsUpdate'){
                 return true;
             }
         }
@@ -80,15 +79,15 @@ class BillPolicy
      * Determine whether the user can delete the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\bill  $bill
+     * @param  \App\Models\document  $document
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function delete(User $user, bill $bill)
+    public function delete(User $user, document $document)
     {
         //
         $types = $user->user_type;
         foreach($types as $type){
-            if($type == 'admin' || $type == 'billAll' || $type == 'billDelete'){
+            if($type == 'admin' || $type == 'docsAll' || $type == 'docsDelete'){
                 return true;
             }
         }
@@ -98,10 +97,10 @@ class BillPolicy
      * Determine whether the user can restore the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\bill  $bill
+     * @param  \App\Models\document  $document
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function restore(User $user)
+    public function restore(User $user, document $document)
     {
         //
         $types = $user->user_type;
@@ -116,10 +115,10 @@ class BillPolicy
      * Determine whether the user can permanently delete the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\bill  $bill
+     * @param  \App\Models\document  $document
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function forceDelete(User $user, bill $bill)
+    public function forceDelete(User $user, document $document)
     {
         //
         $types = $user->user_type;
@@ -128,6 +127,5 @@ class BillPolicy
                 return true;
             }
         }
-
     }
 }

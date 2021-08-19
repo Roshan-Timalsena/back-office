@@ -79,6 +79,7 @@
                     <th scope="col">Images</th>
                     <th scope="col">Type</th>
                     <th scope="col">Tags</th>
+                    <th scope="col">Created By</th>
                     <th scope="col">Action</th>
                 </tr>
             </thead>
@@ -86,7 +87,7 @@
                 @forelse ($docs as $doc)
                     <tr>
                         @php
-                            $file = $doc->images;
+                            $file = $doc->doc_images;
                             $new = explode(',', $file);
                             $tags = explode(',',$doc->tags);
                         @endphp
@@ -110,8 +111,9 @@
                             @endforeach
                         </td>
 
+                        <td class="down">{{$doc->user->name}}</td>
 
-                        <td class="down"><a href="#">Edit</a>&nbsp;<a href="#">Remove</a></td>
+                        <td class="down"><a class="btn btn-info" href="{{route('docs.single',['document'=>$doc->id])}}">Edit</a>&nbsp;<a class="btn btn-danger" href="{{route('docs.remove',['document'=>$doc->id])}}">Remove</a></td>
                     </tr>
                 @empty
                     <tr>

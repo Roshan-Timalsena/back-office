@@ -10,7 +10,6 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
-    {{-- <link href="{{ asset('css/app.css') }}" rel="stylesheet"> --}}
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
@@ -79,7 +78,7 @@
                     <th scope="col">#</th>
                     <th scope="col">Name</th>
                     <th scope="col">Email</th>
-                    <th scope="col">User Type</th>
+                    <th scope="col">Role</th>
                     <th scope="col">Action</th>
                 </tr>
             </thead>
@@ -100,7 +99,7 @@
                                 </ul>
                             </td>
 
-                            <td class="down">@cannot('update', $staff) <p class="text-danger">Not Allowed</p> @endcannot @can('update', $staff)<a href="#">Edit</a>@endcan &nbsp; @can('remove', $staff)<a href="#">Delete</a>@endcan</td>
+                            <td class="down">@cannot('update', $staff) <p class="text-danger">Not Allowed</p> @endcannot @can('update', $staff)<a class="btn btn-info" href="{{route('staff.single',['user'=>$staff->id])}}">Edit</a>@endcan &nbsp; @can('remove', $staff)<a class="btn btn-danger" href="#">Delete</a>@endcan</td>
                     </tr>
                 @endcan
             @empty

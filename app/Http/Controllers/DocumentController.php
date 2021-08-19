@@ -7,6 +7,7 @@ use App\Models\Document;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Auth;
+use Carbon\Carbon;
 
 
 class DocumentController extends Controller
@@ -74,4 +75,96 @@ class DocumentController extends Controller
         $activity->save();
         return redirect()->route('docs.all');
     }
+
+    function getSingleDoc(Document $document){
+        
+        
+        return view('docs.update', ['doc'=>$document]);
+    }
+
+    function updateDoc(Document $document, Request $request){
+
+        $user = Auth::id();
+
+        $request->validate([
+            'name' => 'required|max:255',
+            'description' => 'nullable',
+            'documentType' => ['required', Rule::in(['invoice','contract','note','voucher'])],
+            'tags' => 'required',
+            'file' => 'nullable',
+        ]);
+
+        
+        $doc = Document::find($document->id);
+        $doc->touch();
+        
+        $doc->document_name = $request->name;
+        $doc->document_desc = $request->description;
+        $doc->images = $request->file;
+        $doc->document_type = $request->documentType;
+        $doc->tags = $request->tags;
+
+        $doc->save();
+
+        $activity = new Activity;
+
+        $activity->name = "Documents";
+        $activity->activity_type = "Updated";
+        $activity->time = $doc->updated_at;
+        $activity->user_id = $user;
+        $activity->activity_on = 'ID '.$document->id;
+
+        $activity->save();
+        return redirect()->route('docs.all');
+    }
+
+    function remove(Document $document){
+        $user = Auth::id();
+        $document->delete();
+
+        $activity = new Activity;
+
+        $activity->name = 'Document';
+        $activity->activity_type = "Deleted";
+        $activity->time = $document->deleted_at;
+        $activity->user_id = $user;
+        $activity->activity_on = "ID ". $document->id;
+        $activity->save();
+        return redirect()->route('docs.all');
+    }
+
+    function restoreDocs($id){
+        $user = Auth::id();
+        Document::onlyTrashed()->find($id)->restore();
+
+        $activity = new Activity;
+
+        $activity->name = "Bill";
+        $activity->activity_type = "Restored";
+        $activity->time = Carbon::now()->toDateTimeString();;
+        $activity->user_id = $user;
+        $activity->activity_on = "Bill ID: " . $id;
+
+        $activity->save();
+        return redirect()->route('docs.all');
+    }
+
+    function deleteDocs($id){
+
+        $user = Auth::id();
+
+        $activity = new Activity;
+
+        $activity->name = "Bill";
+        $activity->activity_type = "Permanent Delete";
+        $activity->time = Carbon::now()->toDateTimeString();
+        $activity->user_id = $user;
+        $activity->activity_on = "Bill ID: " . $id;
+
+        $activity->save();
+
+        Document::onlyTrashed()->where('id','=',$id)->forceDelete();
+        return redirect()->route('docs.all');
+    }
+
 }

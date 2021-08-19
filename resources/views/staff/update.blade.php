@@ -76,35 +76,28 @@
 <body class="bg-light bg-gradient">
     <div class="container-fluid" align="center">
         <div class="container" style="margin-top: 80px;">
-            <h1>Add New Staff</h1>
-            <form action="{{route('staff.add')}}" method="POST">
+            <h1>Update Staff</h1>
+            <form action="{{route('staff.update',['user'=>$staff->id])}}" method="POST">
                 @csrf
 
                 <div class="form-group">
                     <label><b>Staff Name</b></label>
-                    <input class="form-control" type="text" name="staffname" id="staffname" placeholder="Staff Name" value="{{ old('staffname') }}">
+                    <input class="form-control" type="text" name="staffname" id="staffname" placeholder="Staff Name" value="{{ $staff->name }}">
                     <span class="text-danger">@error('staffname'){{ $message }} @enderror</span>
                 </div>
 
                 <div class="form-group">
                     <label><b>Staff Email</b></label>
-                    <input class="form-control" type="email" name="email" id="staffemail" placeholder="Staff Email" value="{{ old('email') }}">
+                    <input class="form-control" type="email" name="email" id="staffemail" placeholder="Staff Email" value="{{ $staff->email }}">
                     <span class="text-danger">@error('email'){{ $message }} @enderror</span>
-                </div>
-
-                <div class="form-group">
-                    <label><b>Password</b></label>
-                    <input class="form-control" type="password" name="password" id="password" placeholder="Password" value="{{ old('password') }}">
-                    <span class="text-danger">@error('password'){{ $message }} @enderror</span>
                 </div>
 
                 <div class="form-group">
                     <label><b>Staff Roles</b></label>
                     <ul>
                         <li>
-                            <input name="bill" type="checkbox" id="option"><label for="option"><b>Bill Roles</b></label>
+                            <input name="bill" value="ba" type="checkbox" id="option"><label for="option"><b>Bills</b></label>
                             <ul>
-                                <li><input id="billNone" name="billNone" value="bn" type="checkbox" class="subOption">No Roles</li>
                                 <li><input name="billCreate" value="bc" type="checkbox" class="subOption"> Create</li>
                                 <li><input name="billRead" value="br" type="checkbox" class="subOption"> Read</li>
                                 <li><input name="billUpdate" value="bu" type="checkbox" class="subOption"> Update</li>
@@ -114,23 +107,22 @@
                     </ul>
 
                     <span class="text-danger">@error('bill') {{$message}} @enderror</span>
-                    <span class="text-danger">@error('documents') {{$message}} @enderror</span>
 
-                    <ul>
+
+                    {{-- <ul>
                         <li>
-                            <input name='documents' type="checkbox" id="option2"><label for="option"><b>Documents Roles</b></label>
+                            <input name='frui' type="checkbox" id="option2"><label for="option"><b>Fruits</b></label>
                             <ul>
-                                <li><input name="docsNone" value="dn" type="checkbox" class="subOption2">No Roles</li>
-                                <li><label><input name="docsCreate" value="dc" type="checkbox" class="subOption2">Create</label></li>
-                                <li><label><input name="docsRead" value="dr" type="checkbox" class="subOption2">Read</label></li>
-                                <li><label><input name="docsUpdate" value="du" type="checkbox" class="subOption2">Update</label></li>
-                                <li><label><input name="docsDelete" value="dd" type="checkbox" class="subOption2">Delete</label></li>
+                                <li><label><input type="checkbox" class="subOption2"> Apple</label></li>
+                                <li><label><input type="checkbox" class="subOption2"> Banana</label></li>
+                                <li><label><input type="checkbox" class="subOption2"> Orange</label></li>
                             </ul>
                         </li>
-                    </ul>
+                    </ul> --}}
+
+                    <input type="submit" name="submit" id="submit" value="Update Staff Details" class="btn btn-primary">
 
                 </div>
-                <input type="submit" name="submit" id="submit" value="Add New Staff" class="btn btn-primary">
             </form>
         </div>
     </div>
