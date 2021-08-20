@@ -38,7 +38,7 @@
     <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
         <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
             <li class="nav-item">
-                <a class="nav-link" href="{{ route('bill.all') }}">Bills</a>
+                <a class="nav-link active" href="{{ route('bill.all') }}">Bills</a>
             </li>
 
             <li class="nav-item">
@@ -48,11 +48,6 @@
             <li class="nav-item">
                 <a href="{{route('docs.all')}}" class="nav-link">Documents</a>
             </li>
-
-            <li class="nav-item active">
-                <a href="{{ route('bill.trash') }}" class="nav-link active">Trash</a>
-            </li>
-
         </ul>
 
         <a href="{{ route('logout') }}"

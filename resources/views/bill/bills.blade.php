@@ -51,9 +51,9 @@
                 <a href="{{route('docs.all')}}" class="nav-link">Documents</a>
             </li>
 
-            <li class="nav-item" style="float: right;">
+            {{-- <li class="nav-item" style="float: right;">
                 <a href="{{ route('bill.trash') }}" class="nav-link">Trash</a>
-            </li>
+            </li> --}}
         </ul>
 
         <a href="{{ route('logout') }}"
@@ -70,6 +70,8 @@
     @can('create', App\Models\Bill::class)
         <a href="{{route('bill.new')}}" style="margin-top: 60px;" class="btn btn-primary">Add New Bill</a>
     @endcan
+    <a href="{{route('bill.trash')}}" class="btn btn-warning" style="margin-top: 60px;float: right;">View Bills Trash</a>
+
     <div class="container-fluid table-responsive py-5" style="margin-top: 15px;">
         <table class="table table-bordered table-hover" id="datatable">
             <thead class="thead-dark">

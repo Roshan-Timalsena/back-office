@@ -55,11 +55,7 @@
             </li>
 
             <li class="nav-item">
-                <a href="{{route('docs.all')}}" class="nav-link">Documents</a>
-            </li>
-
-            <li class="nav-item" style="float: right;">
-                <a href="{{ route('bill.trash') }}" class="nav-link">Trash</a>
+                <a href="{{ route('docs.all') }}" class="nav-link">Documents</a>
             </li>
         </ul>
 
@@ -77,18 +73,20 @@
     <div class="container-fluid" align="center">
         <div class="container" style="margin-top: 80px;">
             <h1>Update Staff</h1>
-            <form action="{{route('staff.update',['user'=>$staff->id])}}" method="POST">
+            <form action="{{ route('staff.update', ['user' => $staff->id]) }}" method="POST">
                 @csrf
 
                 <div class="form-group">
                     <label><b>Staff Name</b></label>
-                    <input class="form-control" type="text" name="staffname" id="staffname" placeholder="Staff Name" value="{{ $staff->name }}">
+                    <input class="form-control" type="text" name="staffname" id="staffname" placeholder="Staff Name"
+                        value="{{ $staff->name }}">
                     <span class="text-danger">@error('staffname'){{ $message }} @enderror</span>
                 </div>
 
                 <div class="form-group">
                     <label><b>Staff Email</b></label>
-                    <input class="form-control" type="email" name="email" id="staffemail" placeholder="Staff Email" value="{{ $staff->email }}">
+                    <input class="form-control" type="email" name="email" id="staffemail" placeholder="Staff Email"
+                        value="{{ $staff->email }}">
                     <span class="text-danger">@error('email'){{ $message }} @enderror</span>
                 </div>
 
@@ -96,8 +94,11 @@
                     <label><b>Staff Roles</b></label>
                     <ul>
                         <li>
-                            <input name="bill" value="ba" type="checkbox" id="option"><label for="option"><b>Bills</b></label>
+                            <input name="bill" value="ba" type="checkbox" id="option"><label
+                                for="option"><b>Bills</b></label>
                             <ul>
+                                <li><input id="billNone" name="billNone" value="billNone" type="checkbox">No
+                                    Roles</li>
                                 <li><input name="billCreate" value="bc" type="checkbox" class="subOption"> Create</li>
                                 <li><input name="billRead" value="br" type="checkbox" class="subOption"> Read</li>
                                 <li><input name="billUpdate" value="bu" type="checkbox" class="subOption"> Update</li>
@@ -106,19 +107,27 @@
                         </li>
                     </ul>
 
-                    <span class="text-danger">@error('bill') {{$message}} @enderror</span>
+                    <span class="text-danger">@error('bill') {{ $message }} @enderror</span>
 
-
-                    {{-- <ul>
+                    <ul>
                         <li>
-                            <input name='frui' type="checkbox" id="option2"><label for="option"><b>Fruits</b></label>
+                            <input name='documents' type="checkbox" id="option2"><label for="option"><b>Documents
+                                    Roles</b></label>
                             <ul>
-                                <li><label><input type="checkbox" class="subOption2"> Apple</label></li>
-                                <li><label><input type="checkbox" class="subOption2"> Banana</label></li>
-                                <li><label><input type="checkbox" class="subOption2"> Orange</label></li>
+                                <li><input name="docsNone" id="docsNone" value="docsNone" type="checkbox">No Roles</li>
+                                <li><label><input name="docsCreate" value="docsCreate" type="checkbox"
+                                            class="subOption2">Create</label></li>
+                                <li><label><input name="docsRead" value="docsRead" type="checkbox"
+                                            class="subOption2">Read</label></li>
+                                <li><label><input name="docsUpdate" value="docsUpdate" type="checkbox"
+                                            class="subOption2">Update</label></li>
+                                <li><label><input name="docsDelete" value="docsDelete" type="checkbox"
+                                            class="subOption2">Delete</label></li>
                             </ul>
+                            <span class="text-danger">@error('documents') {{ $message }} @enderror</span>
+
                         </li>
-                    </ul> --}}
+                    </ul>
 
                     <input type="submit" name="submit" id="submit" value="Update Staff Details" class="btn btn-primary">
 
@@ -160,6 +169,36 @@
         checkall2.onclick = function() {
             for (var i = 0; i < checkboxes2.length; i++) {
                 checkboxes2[i].checked = this.checked;
+            }
+        }
+    </script>
+
+    <script>
+        $(function() {
+            disable_cb1();
+            $("#billNone").on('click', disable_cb1);
+        });
+
+        function disable_cb1() {
+            if (this.checked) {
+                $("input.subOption").attr('disabled', true);
+            } else {
+                $("input.subOption").attr('disabled', false);
+            }
+        }
+    </script>
+
+    <script>
+        $(function() {
+            disable_cb();
+            $("#docsNone").on('click', disable_cb);
+        });
+
+        function disable_cb() {
+            if (this.checked) {
+                $("input.subOption2").attr('disabled', true);
+            } else {
+                $("input.subOption2").attr('disabled', false);
             }
         }
     </script>

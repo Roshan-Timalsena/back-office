@@ -5,20 +5,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Documents</title>
+    <title>Bills</title>
 
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
     <link href="https://cdn.datatables.net/1.10.25/css/dataTables.bootstrap5.min.css">
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj" crossorigin="anonymous">
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj" crossorigin="anonymous">
     </script>
 
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"
-        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 
     <script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.10.25/js/dataTables.bootstrap5.min.js"></script>
@@ -28,6 +25,7 @@
         }
 
     </style>
+
 </head>
 
 <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-black">
@@ -44,11 +42,11 @@
             </li>
 
             <li class="nav-item">
-                <a href="{{ route('staff.all') }}" class="nav-link">Staff</a>
+                <a href="{{route('staff.all')}}" class="nav-link">Staff</a>
             </li>
 
-            <li class="nav-item">
-                <a href="{{ route('docs.all') }}" class="nav-link active">Documents</a>
+            <li class="nav-item">  
+                <a href="{{route('docs.all')}}" class="nav-link active">Documents</a>
             </li>
         </ul>
 
@@ -63,13 +61,8 @@
 </nav>
 
 <body class="bg-light bg-gradient">
-
-    @can('create', App\Models\Document::class)
-        <a href="{{ route('docs.new') }}" style="margin-top: 60px;" class="btn btn-primary">Add New Document</a>
-    @endcan
-    <a href="{{route('docs.trash')}}" style="margin-top: 60px; float: right;" class="btn btn-warning">View Document Trash</a>
     <div class="container-fluid table-responsive py-5" style="margin-top: 15px;">
-        <table class="table table-bordered table-hover" id="docstable">
+        <table class="table table-bordered table-hover" id="trashtable">
             <thead class="thead-dark">
                 <tr>
                     <th scope="col">#</th>
@@ -113,7 +106,7 @@
 
                         <td class="down">{{$doc->user->name}}</td>
 
-                        <td class="down">@can('update', $doc)<a class="btn btn-info" href="{{route('docs.single',['document'=>$doc->id])}}">Edit</a>@endcan &nbsp;@can('delete', $doc)<a class="btn btn-danger" href="{{route('docs.remove',['document'=>$doc->id])}}">Remove</a>@endcan</td>
+                        <td class="down">@cannot('restore', $doc) <p class="text-danger">Not Allowed</p>@endcannot @can('restore', $doc)<a class="btn btn-success" href="{{route('docs.restore',['id'=>$doc->id])}}">Restore</a>@endcan &nbsp;@can('forceDelete', $doc)<a class="btn btn-danger" href="{{route('docs.delete',['id'=>$doc->id])}}">Remove</a>@endcan</td>
                     </tr>
                 @endcan
                 @empty
@@ -127,7 +120,7 @@
 
     <script>
         $(document).ready( function () {
-            $('#docstable').DataTable();
+            $('#trashtable').DataTable();
         });
     </script>
 </body>

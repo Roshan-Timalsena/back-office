@@ -3,9 +3,7 @@
 use App\Http\Controllers\BillController;
 use App\Http\Controllers\DocumentController;
 use App\Http\Controllers\StaffController;
-use App\Models\Bill;
 use Illuminate\Support\Facades\Route;
-use PhpParser\Comment\Doc;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,7 +21,9 @@ Route::get('/', function () {
 });
 
 //Bills Routes
-Route::get('/dashboard', [BillController::class, 'allBills'])->middleware(['auth'])->name('bill.form');
+Route::get('/dashboard', function(){
+    return redirect('/staffs');
+});
 Route::get('/bill/add', [BillController::class, 'index'])->middleware(['auth'])->name('bill.new');
 Route::post('/add', [BillController::class, 'store'])->middleware(['auth'])->name('bill.add');
 
@@ -65,5 +65,7 @@ Route::get('/document/remove/{document:id}', [DocumentController::class, 'remove
 Route::get('/document/restore/{id}', [DocumentController::class, 'restoreDocs'])->middleware(['auth'])->name('docs.restore');
 
 Route::get('document/delete/{id}', [DocumentController::class, 'deleteDocs'])->middleware(['auth'])->name('docs.delete');
+
+Route::get('/documents/trash', [DocumentController::class, 'getDocsTrash'])->middleware(['auth'])->name('docs.trash');
 //Document Route Ends
 require __DIR__.'/auth.php';

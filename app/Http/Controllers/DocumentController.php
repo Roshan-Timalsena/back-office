@@ -26,6 +26,9 @@ class DocumentController extends Controller
     }
 
     function docStore(Request $request){
+        
+        $this->authorize('create', Document::class);
+
         $fileNames = '';
         $files = $request->file('file');
         $count = count($files);
@@ -42,6 +45,8 @@ class DocumentController extends Controller
     }
 
     function store(Request $request){
+
+        $this->authorize('create', Document::class);
 
         $user = Auth::id();
 
@@ -78,11 +83,13 @@ class DocumentController extends Controller
 
     function getSingleDoc(Document $document){
         
-        
+        $this->authorize('update', $document);
         return view('docs.update', ['doc'=>$document]);
     }
 
     function updateDoc(Document $document, Request $request){
+
+        $this->authorize('update', $document);
 
         $user = Auth::id();
 
@@ -119,6 +126,8 @@ class DocumentController extends Controller
     }
 
     function remove(Document $document){
+        $this->authorize('delete', $document);
+
         $user = Auth::id();
         $document->delete();
 
@@ -134,6 +143,8 @@ class DocumentController extends Controller
     }
 
     function restoreDocs($id){
+        $this->authorize('restore', Document::class);
+
         $user = Auth::id();
         Document::onlyTrashed()->find($id)->restore();
 
@@ -150,6 +161,7 @@ class DocumentController extends Controller
     }
 
     function deleteDocs($id){
+        $this->authorize('forceDelete', Document::class);
 
         $user = Auth::id();
 
@@ -167,4 +179,9 @@ class DocumentController extends Controller
         return redirect()->route('docs.all');
     }
 
+    function getDocsTrash(){
+
+        $docs = Document::onlyTrashed()->get();
+        return view('docs.trash', ['docs' => $docs, 'count' =>1]);
+    }
 }

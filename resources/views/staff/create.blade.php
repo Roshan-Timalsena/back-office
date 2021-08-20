@@ -55,11 +55,7 @@
             </li>
 
             <li class="nav-item">
-                <a href="{{route('docs.all')}}" class="nav-link">Documents</a>
-            </li>
-
-            <li class="nav-item" style="float: right;">
-                <a href="{{ route('bill.trash') }}" class="nav-link">Trash</a>
+                <a href="{{ route('docs.all') }}" class="nav-link">Documents</a>
             </li>
         </ul>
 
@@ -77,24 +73,27 @@
     <div class="container-fluid" align="center">
         <div class="container" style="margin-top: 80px;">
             <h1>Add New Staff</h1>
-            <form action="{{route('staff.add')}}" method="POST">
+            <form action="{{ route('staff.add') }}" method="POST">
                 @csrf
 
                 <div class="form-group">
                     <label><b>Staff Name</b></label>
-                    <input class="form-control" type="text" name="staffname" id="staffname" placeholder="Staff Name" value="{{ old('staffname') }}">
+                    <input class="form-control" type="text" name="staffname" id="staffname" placeholder="Staff Name"
+                        value="{{ old('staffname') }}">
                     <span class="text-danger">@error('staffname'){{ $message }} @enderror</span>
                 </div>
 
                 <div class="form-group">
                     <label><b>Staff Email</b></label>
-                    <input class="form-control" type="email" name="email" id="staffemail" placeholder="Staff Email" value="{{ old('email') }}">
+                    <input class="form-control" type="email" name="email" id="staffemail" placeholder="Staff Email"
+                        value="{{ old('email') }}">
                     <span class="text-danger">@error('email'){{ $message }} @enderror</span>
                 </div>
 
                 <div class="form-group">
                     <label><b>Password</b></label>
-                    <input class="form-control" type="password" name="password" id="password" placeholder="Password" value="{{ old('password') }}">
+                    <input class="form-control" type="password" name="password" id="password" placeholder="Password"
+                        value="{{ old('password') }}">
                     <span class="text-danger">@error('password'){{ $message }} @enderror</span>
                 </div>
 
@@ -104,28 +103,33 @@
                         <li>
                             <input name="bill" type="checkbox" id="option"><label for="option"><b>Bill Roles</b></label>
                             <ul>
-                                <li><input id="billNone" name="billNone" value="bn" type="checkbox" class="subOption">No Roles</li>
-                                <li><input name="billCreate" value="bc" type="checkbox" class="subOption"> Create</li>
-                                <li><input name="billRead" value="br" type="checkbox" class="subOption"> Read</li>
-                                <li><input name="billUpdate" value="bu" type="checkbox" class="subOption"> Update</li>
-                                <li><input name="billDelete" value="bd" type="checkbox" class="subOption"> Delete</li>
+                                <li><input id="billNone" name="billNone" value="billNone" type="checkbox">No Roles</li>
+                                <li><input name="billCreate" value="billCreate" type="checkbox" class="subOption"> Create</li>
+                                <li><input name="billRead" value="billRead" type="checkbox" class="subOption"> Read</li>
+                                <li><input name="billUpdate" value="billUpdate" type="checkbox" class="subOption"> Update</li>
+                                <li><input name="billDelete" value="billDelete" type="checkbox" class="subOption"> Delete</li>
                             </ul>
                         </li>
                     </ul>
 
-                    <span class="text-danger">@error('bill') {{$message}} @enderror</span>
-                    <span class="text-danger">@error('documents') {{$message}} @enderror</span>
+                    <span class="text-danger">@error('bill') {{ $message }} @enderror</span>
 
                     <ul>
                         <li>
-                            <input name='documents' type="checkbox" id="option2"><label for="option"><b>Documents Roles</b></label>
+                            <input name='documents' type="checkbox" id="option2"><label for="option2"><b>Documents Roles</b></label>
                             <ul>
-                                <li><input name="docsNone" value="dn" type="checkbox" class="subOption2">No Roles</li>
-                                <li><label><input name="docsCreate" value="dc" type="checkbox" class="subOption2">Create</label></li>
-                                <li><label><input name="docsRead" value="dr" type="checkbox" class="subOption2">Read</label></li>
-                                <li><label><input name="docsUpdate" value="du" type="checkbox" class="subOption2">Update</label></li>
-                                <li><label><input name="docsDelete" value="dd" type="checkbox" class="subOption2">Delete</label></li>
+                                <li><input name="docsNone" id="docsNone" value="docsNone" type="checkbox">No Roles</li>
+                                <li><label><input name="docsCreate" value="docsCreate" type="checkbox"
+                                            class="subOption2">Create</label></li>
+                                <li><label><input name="docsRead" value="docsRead" type="checkbox"
+                                            class="subOption2">Read</label></li>
+                                <li><label><input name="docsUpdate" value="docsUpdate" type="checkbox"
+                                            class="subOption2">Update</label></li>
+                                <li><label><input name="docsDelete" value="docsDelete" type="checkbox"
+                                            class="subOption2">Delete</label></li>
                             </ul>
+                        <span class="text-danger">@error('documents') {{ $message }} @enderror</span>
+
                         </li>
                     </ul>
 
@@ -168,6 +172,32 @@
         checkall2.onclick = function() {
             for (var i = 0; i < checkboxes2.length; i++) {
                 checkboxes2[i].checked = this.checked;
+            }
+        }
+
+        $(function() {
+            disable_cb1();
+            $("#billNone").on('click', disable_cb1);
+        });
+
+        function disable_cb1() {
+            if (this.checked) {
+                $("input.subOption").attr('disabled', true);
+            } else {
+                $("input.subOption").attr('disabled', false);
+            }
+        }
+
+        $(function() {
+            disable_cb();
+            $("#docsNone").on('click', disable_cb);
+        });
+
+        function disable_cb() {
+            if (this.checked) {
+                $("input.subOption2").attr('disabled', true);
+            } else {
+                $("input.subOption2").attr('disabled', false);
             }
         }
     </script>
