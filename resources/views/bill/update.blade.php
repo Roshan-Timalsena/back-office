@@ -38,12 +38,7 @@
 
             <li class="nav-item">
                 <a href="{{route('docs.all')}}" class="nav-link">Documents</a>
-            </li>
-
-            {{-- <li class="nav-item">
-                <a href="{{route('bill.trash')}}" class="nav-link">Trash</a>
-            </li> --}}
-            
+            </li>            
         </ul>
 
         <a href="{{ route('logout') }}"
@@ -63,6 +58,12 @@
             <form action="{{route('bill.update',['bill'=>$bill->id])}}" method="POST" enctype="multipart/form-data">
                 @csrf
 
+                <div class="form-group">
+                    <label><b>Bill Date</b></label>
+                    <input class="form-control" type="text" name="billdate" id="bill-date" placeholder="Bill Issue Date" onblur="(this.type='text')" onfocus="(this.type='date')" value="{{$bill->bil_date}}">
+                    <span class="text-danger">@error('billdate'){{$message}} @enderror</span>
+                </div>
+                <br>
                 <div class="form-group">
                     <label><b>Firm Name</b></label>
                     <input type="text" class="form-control" name="firmname" id="firm-name" placeholder="Firm Name" value="{{$bill->firm_name}}">

@@ -63,9 +63,10 @@ class DocumentController extends Controller
         
         $doc->document_name = $request->name;
         $doc->document_desc = $request->description;
-        $doc->images = $request->file;
+        $doc->doc_images = $request->file;
         $doc->document_type = $request->documentType;
         $doc->tags = $request->tags;
+        $doc->user_id = $user;
 
         $doc->save();
 
@@ -75,7 +76,7 @@ class DocumentController extends Controller
         $activity->activity_type = "Created";
         $activity->time = $doc->created_at;
         $activity->user_id = $user;
-        $activity->activity_on = 'ID '.$doc->id;
+        $activity->activity_on = "Document: ". $doc->document_name;
 
         $activity->save();
         return redirect()->route('docs.all');
@@ -107,9 +108,10 @@ class DocumentController extends Controller
         
         $doc->document_name = $request->name;
         $doc->document_desc = $request->description;
-        $doc->images = $request->file;
+        $doc->doc_images = $request->file;
         $doc->document_type = $request->documentType;
         $doc->tags = $request->tags;
+        $doc->user_id = $user;
 
         $doc->save();
 
@@ -119,7 +121,7 @@ class DocumentController extends Controller
         $activity->activity_type = "Updated";
         $activity->time = $doc->updated_at;
         $activity->user_id = $user;
-        $activity->activity_on = 'ID '.$document->id;
+        $activity->activity_on = "Document: ". $doc->document_name;
 
         $activity->save();
         return redirect()->route('docs.all');
@@ -137,7 +139,7 @@ class DocumentController extends Controller
         $activity->activity_type = "Deleted";
         $activity->time = $document->deleted_at;
         $activity->user_id = $user;
-        $activity->activity_on = "ID ". $document->id;
+        $activity->activity_on = "Document: ". $document->document_name;
         $activity->save();
         return redirect()->route('docs.all');
     }
@@ -147,14 +149,14 @@ class DocumentController extends Controller
 
         $user = Auth::id();
         Document::onlyTrashed()->find($id)->restore();
-
+        $doc = Document::where('id','=',$id)->value('document_name');
         $activity = new Activity;
 
-        $activity->name = "Bill";
+        $activity->name = "Document";
         $activity->activity_type = "Restored";
         $activity->time = Carbon::now()->toDateTimeString();;
         $activity->user_id = $user;
-        $activity->activity_on = "Bill ID: " . $id;
+        $activity->activity_on = "Document: " . $doc;
 
         $activity->save();
         return redirect()->route('docs.all');
@@ -164,14 +166,14 @@ class DocumentController extends Controller
         $this->authorize('forceDelete', Document::class);
 
         $user = Auth::id();
-
+        $doc = Document::onlyTrashed()->where('id','=',$id)->value('document_name');
         $activity = new Activity;
 
-        $activity->name = "Bill";
+        $activity->name = "Document";
         $activity->activity_type = "Permanent Delete";
         $activity->time = Carbon::now()->toDateTimeString();
         $activity->user_id = $user;
-        $activity->activity_on = "Bill ID: " . $id;
+        $activity->activity_on = "Document: ". $doc;
 
         $activity->save();
 

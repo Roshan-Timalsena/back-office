@@ -64,7 +64,7 @@ class BillController extends Controller
         $activity->activity_type = 'Created';
         $activity->time = $bill->created_at;
         $activity->user_id = $user;
-        $activity->activity_on = "Bill ID: " . $bill->id;
+        $activity->activity_on = "Bill of " . $bill->firm_name;
         $activity->save();
 
         return redirect()->route('bill.all');
@@ -124,7 +124,7 @@ class BillController extends Controller
         $activity->name = 'Bill';
         $activity->activity_type = 'Updated';
         $activity->time = $b->updated_at;
-        $activity->activity_on = "Bill ID: " . $b->id;
+        $activity->activity_on = "Bill of ".$bill->firm_name;
         $activity->user_id = $user;
         $activity->save();
 
@@ -143,7 +143,7 @@ class BillController extends Controller
         $activity->activity_type = "Deleted";
         $activity->time = $bill->deleted_at;
         $activity->user_id = $user;
-        $activity->activity_on = "Bill ID: ". $bill->id;
+        $activity->activity_on = "Bill of ". $bill->firm_name;
         $activity->save();
         return redirect()->route('bill.all');
     }
@@ -160,14 +160,14 @@ class BillController extends Controller
 
         $user = Auth::id();
         Bill::onlyTrashed()->find($id)->restore();
-
+        $firm = Bill::where('id','=',$id)->value('firm_name');
         $activity = new Activity;
 
         $activity->name = "Bill";
         $activity->activity_type = "Restored";
         $activity->time = Carbon::now()->toDateTimeString();;
         $activity->user_id = $user;
-        $activity->activity_on = "Bill ID: " . $id;
+        $activity->activity_on = "Bill of ". $firm; 
 
         $activity->save();
         return redirect()->route('bill.all');
@@ -175,17 +175,17 @@ class BillController extends Controller
 
     function delete($id){
 
-        $this->authorize('forceDelete', $id);
+        $this->authorize('forceDelete', Bill::class);
 
         $user = Auth::id();
-
+        $firm = Bill::onlyTrashed()->where('id','=',$id)->value('firm_name');
         $activity = new Activity;
 
         $activity->name = "Bill";
         $activity->activity_type = "Permanent Delete";
         $activity->time = Carbon::now()->toDateTimeString();
         $activity->user_id = $user;
-        $activity->activity_on = "Bill ID: " . $id;
+        $activity->activity_on = "Bill of ". $firm;
 
         $activity->save();
 

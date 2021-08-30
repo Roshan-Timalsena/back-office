@@ -119,7 +119,7 @@ class BillPolicy
      * @param  \App\Models\bill  $bill
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function forceDelete(User $user, bill $bill)
+    public function forceDelete(User $user)
     {
         //
         $types = $user->user_type;

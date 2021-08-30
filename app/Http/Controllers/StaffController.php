@@ -111,6 +111,16 @@ class StaffController extends Controller
 
         // return $u;
         $u->save();
+
+        $activity = new Activity;
+
+        $activity->name = "Staff";
+        $activity->activity_type = "Updatd";
+        $activity->time = $u->updated_at;
+        $activity->user_id = $user;
+        $activity->activity_on = "Updated " . $u->name;
+        $activity->save();
+        
         return redirect()->route('staff.all');
     }
 }

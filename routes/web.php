@@ -25,7 +25,7 @@ Route::get('/dashboard', function(){
     return redirect('/staffs');
 });
 Route::get('/bill/add', [BillController::class, 'index'])->middleware(['auth'])->name('bill.new');
-Route::post('/add', [BillController::class, 'store'])->middleware(['auth'])->name('bill.add');
+Route::post('/bill/add', [BillController::class, 'store'])->middleware(['auth'])->name('bill.add');
 
 Route::get('/bills', [BillController::class, 'allBills'])->middleware(['auth'])->name('bill.all');
 

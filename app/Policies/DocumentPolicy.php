@@ -100,7 +100,7 @@ class DocumentPolicy
      * @param  \App\Models\document  $document
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function restore(User $user, document $document)
+    public function restore(User $user)
     {
         //
         $types = $user->user_type;
@@ -118,7 +118,7 @@ class DocumentPolicy
      * @param  \App\Models\document  $document
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function forceDelete(User $user, document $document)
+    public function forceDelete(User $user)
     {
         //
         $types = $user->user_type;

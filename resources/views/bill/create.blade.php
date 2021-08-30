@@ -41,10 +41,6 @@
             <li class="nav-item">
                 <a href="{{route('docs.all')}}" class="nav-link">Documents</a>
             </li>
-
-            {{-- <li class="nav-item">
-                <a href="{{route('bill.trash')}}" class="nav-link">Trash</a>
-            </li> --}}
             
         </ul>
 
@@ -62,12 +58,12 @@
     <div class="container-fluid" align="center">
         <div class="container" style="margin-top: 80px;">
             <h1>Add Bill</h1>
-            <form action="/add" method="POST" enctype="multipart/form-data">
+            <form action="{{route('bill.add')}}" method="POST" enctype="multipart/form-data">
                 @csrf
 
                 <div class="form-group">
                     <label><b>Bill Date</b></label>
-                    <input class="form-control" type="date" name="billdate" id="bill-date" placeholder="Bill Date" value="{{old('billdate')}}">
+                    <input class="form-control" type="text" name="billdate" id="bill-date" placeholder="Bill Issue Date" onblur="(this.type='text')" onfocus="(this.type='date')" value="{{old('billdate')}}">
                     <span class="text-danger">@error('billdate'){{$message}} @enderror</span>
                 </div>
     
