@@ -80,6 +80,8 @@ class StaffController extends Controller
     {
         $this->authorize('update', $user);
 
+        $logged = Auth::id();
+
         $request->validate([
             'staffname' => 'max:255',
             'email' => 'email',
@@ -109,15 +111,14 @@ class StaffController extends Controller
             $u->user_type = $finalRoles;
         }
 
-        // return $u;
         $u->save();
 
         $activity = new Activity;
 
         $activity->name = "Staff";
         $activity->activity_type = "Updatd";
-        $activity->time = $u->updated_at;
-        $activity->user_id = $user;
+        $activity->time = date('y-m-d H:i:s');
+        $activity->user_id = $logged;
         $activity->activity_on = "Updated " . $u->name;
         $activity->save();
         

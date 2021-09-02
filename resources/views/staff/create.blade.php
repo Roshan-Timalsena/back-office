@@ -105,9 +105,9 @@
                             <ul>
                                 <li><input id="billNone" name="billNone" value="billNone" type="checkbox">No Roles</li>
                                 <li><input name="billCreate" value="billCreate" type="checkbox" class="subOption"> Create</li>
-                                <li><input name="billRead" value="billRead" type="checkbox" class="subOption"> Read</li>
-                                <li><input name="billUpdate" value="billUpdate" type="checkbox" class="subOption"> Update</li>
-                                <li><input name="billDelete" value="billDelete" type="checkbox" class="subOption"> Delete</li>
+                                <li><input name="billRead" value="billRead" type="checkbox" class="subOption" id="billRead"> Read</li>
+                                <li><input name="billUpdate" value="billUpdate" type="checkbox" class="subOption" id="billUpdate"> Update</li>
+                                <li><input name="billDelete" value="billDelete" type="checkbox" class="subOption" id="billDelete"> Delete</li>
                             </ul>
                         </li>
                     </ul>
@@ -122,11 +122,11 @@
                                 <li><label><input name="docsCreate" value="docsCreate" type="checkbox"
                                             class="subOption2">Create</label></li>
                                 <li><label><input name="docsRead" value="docsRead" type="checkbox"
-                                            class="subOption2">Read</label></li>
+                                            class="subOption2" id="docsRead">Read</label></li>
                                 <li><label><input name="docsUpdate" value="docsUpdate" type="checkbox"
-                                            class="subOption2">Update</label></li>
+                                            class="subOption2" id="docsUpdate">Update</label></li>
                                 <li><label><input name="docsDelete" value="docsDelete" type="checkbox"
-                                            class="subOption2">Delete</label></li>
+                                            class="subOption2" id="docsDelete">Delete</label></li>
                             </ul>
                         <span class="text-danger">@error('documents') {{ $message }} @enderror</span>
 
@@ -200,5 +200,34 @@
                 $("input.subOption2").attr('disabled', false);
             }
         }
+
+        $("#docsUpdate").on('click', function(){
+            if(this.checked){
+                $("#docsRead").attr('checked', true);
+            }
+        });
+
+        $("#docsDelete").on('click', function(){
+            if(this.checked){
+                $("#docsRead").attr('checked', true);
+            }
+        });
+
+
+        $("#billUpdate").on('click', function(){
+            if(this.checked){
+                $("#billRead").attr('checked', true);
+            } else{
+                $("#billRead").attr('checked', false);
+            }
+        });
+
+        $("#billDelete").on('click', function(){
+            if(this.checked){
+                $("#billRead").attr('checked', true);
+            } else{
+                $("#billRead").attr('checked', false);
+            }
+        });
     </script>
 </body>

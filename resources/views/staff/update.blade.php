@@ -99,10 +99,10 @@
                             <ul>
                                 <li><input id="billNone" name="billNone" value="billNone" type="checkbox">No
                                     Roles</li>
-                                <li><input name="billCreate" value="bc" type="checkbox" class="subOption"> Create</li>
-                                <li><input name="billRead" value="br" type="checkbox" class="subOption"> Read</li>
-                                <li><input name="billUpdate" value="bu" type="checkbox" class="subOption"> Update</li>
-                                <li><input name="billDelete" value="bd" type="checkbox" class="subOption"> Delete</li>
+                                <li><input name="billCreate" value="billCreate" type="checkbox" class="subOption"> Create</li>
+                                <li><input name="billRead" value="billRead" type="checkbox" class="subOption"> Read</li>
+                                <li><input name="billUpdate" value="billUpdate" type="checkbox" class="subOption"> Update</li>
+                                <li><input name="billDelete" value="billDelete" type="checkbox" class="subOption"> Delete</li>
                             </ul>
                         </li>
                     </ul>
