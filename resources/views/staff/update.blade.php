@@ -92,6 +92,9 @@
 
                 <div class="form-group">
                     <label><b>Staff Roles</b></label>
+                    @foreach ($staff->user_type as $role)
+                        <input type="text" class="roles" value="{{$role}}" style="display: none;">
+                    @endforeach
                     <ul>
                         <li>
                             <input name="bill" value="ba" type="checkbox" id="option"><label
@@ -99,10 +102,10 @@
                             <ul>
                                 <li><input id="billNone" name="billNone" value="billNone" type="checkbox">No
                                     Roles</li>
-                                <li><input name="billCreate" value="billCreate" type="checkbox" class="subOption"> Create</li>
-                                <li><input name="billRead" value="billRead" type="checkbox" class="subOption"> Read</li>
-                                <li><input name="billUpdate" value="billUpdate" type="checkbox" class="subOption"> Update</li>
-                                <li><input name="billDelete" value="billDelete" type="checkbox" class="subOption"> Delete</li>
+                                <li><input name="billCreate" value="billCreate" id="billCreate" type="checkbox" class="subOption"> Create</li>
+                                <li><input name="billRead" value="billRead" id="billRead" type="checkbox" class="subOption"> Read</li>
+                                <li><input name="billUpdate" value="billUpdate" id="billUpdate" type="checkbox" class="subOption"> Update</li>
+                                <li><input name="billDelete" value="billDelete" id="billDelete" type="checkbox" class="subOption"> Delete</li>
                             </ul>
                         </li>
                     </ul>
@@ -115,13 +118,13 @@
                                     Roles</b></label>
                             <ul>
                                 <li><input name="docsNone" id="docsNone" value="docsNone" type="checkbox">No Roles</li>
-                                <li><label><input name="docsCreate" value="docsCreate" type="checkbox"
+                                <li><label><input name="docsCreate" id="docsCreate" value="docsCreate" type="checkbox"
                                             class="subOption2">Create</label></li>
-                                <li><label><input name="docsRead" value="docsRead" type="checkbox"
+                                <li><label><input name="docsRead" id="docsRead" value="docsRead" type="checkbox"
                                             class="subOption2">Read</label></li>
-                                <li><label><input name="docsUpdate" value="docsUpdate" type="checkbox"
+                                <li><label><input name="docsUpdate" id="docsUpdate" value="docsUpdate" type="checkbox"
                                             class="subOption2">Update</label></li>
-                                <li><label><input name="docsDelete" value="docsDelete" type="checkbox"
+                                <li><label><input name="docsDelete" id="docsDelete" value="docsDelete" type="checkbox"
                                             class="subOption2">Delete</label></li>
                             </ul>
                             <span class="text-danger">@error('documents') {{ $message }} @enderror</span>
@@ -137,6 +140,50 @@
     </div>
 
     <script>
+        var rolesEl = document.getElementsByClassName('roles');
+
+        for(var i = 0; i < rolesEl.length; i++){
+            var role = (rolesEl[i].value);
+            if(role == 'billAll'){
+                $("#option").attr('checked', true);
+                $("#billCreate").attr('checked', true);
+                $("#billRead").attr('checked', true);
+                $("#billUpdate").attr('checked', true);
+                $("#billDelete").attr('checked', true);
+            }
+            if(role == 'billCreate'){
+                $("#billCreate").attr('checked', true);
+            }
+            if(role == 'billRead'){
+                $("#billRead").attr('checked', true);
+            }
+            if(role == 'billUpdate'){
+                $("#billUpdate").attr('checked', true);
+            }
+            if(role == 'billDelete'){
+                $("#billDelete").attr('checked', true);
+            }
+            if(role == 'docsAll'){
+                $("#option2").attr('checked', true);
+                $("#docsCreate").attr('checked', true);
+                $("#docsRead").attr('checked', true);
+                $("#docsUpdate").attr('checked', true);
+                $("#docsDelete").attr('checked', true);
+            }
+            if(role == 'docsCreate'){
+                $("#docsCreate").attr('checked', true);
+            }
+            if(role == 'docsRead'){
+                $("#docsRead").attr('checked', true);
+            }
+            if(role == 'docsUpdate'){
+                $("#docsUpdate").attr('checked', true);
+            }
+            if(role == 'docsDelete'){
+                $("#docsDelete").attr('checked', true);
+            }
+        }
+        
         var checkboxes = document.querySelectorAll('input.subOption'),
             checkboxes2 = document.querySelectorAll('input.subOption2'),
             checkall = document.getElementById('option'),
