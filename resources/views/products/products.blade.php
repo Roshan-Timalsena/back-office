@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Documents</title>
+    <title>Products</title>
 
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
@@ -39,8 +39,8 @@
 
     <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
         <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-            <li class="nav-item">
-                <a class="nav-link" href="{{ route('bill.all') }}">Bills</a>
+            <li class="nav-item active">
+                <a class="nav-link active" href="{{ route('bill.all') }}">Bills</a>
             </li>
 
             <li class="nav-item">
@@ -48,12 +48,16 @@
             </li>
 
             <li class="nav-item">
-                <a href="{{ route('docs.all') }}" class="nav-link active">Documents</a>
+                <a href="{{ route('docs.all') }}" class="nav-link">Documents</a>
             </li>
 
             <li class="nav-item">
-                <a href="{{route('products.all')}}" class="nav-link">Products</a>
+                <a href="{{ route('products.all') }}" class="nav-link">Products</a>
             </li>
+
+            {{-- <li class="nav-item" style="float: right;">
+                <a href="{{ route('bill.trash') }}" class="nav-link">Trash</a>
+            </li> --}}
         </ul>
 
         <a href="{{ route('logout') }}"
@@ -67,71 +71,61 @@
 </nav>
 
 <body class="bg-light bg-gradient">
-
-    @can('create', App\Models\Document::class)
-        <a href="{{ route('docs.new') }}" style="margin-top: 60px;" class="btn btn-primary">Add New Document</a>
-    @endcan
-    <a href="{{route('docs.trash')}}" style="margin-top: 60px; float: right;" class="btn btn-warning">View Document Trash</a>
     <div class="container-fluid table-responsive py-5" style="margin-top: 15px;">
-        <table class="table table-bordered table-hover" id="docstable">
+        
+        @can('create', App\Models\Product::class)
+            <a class="btn btn-primary" href="{{route('prod.new')}}">Add new Product</a>
+        @endcan
+        <table class="table table-bordered table-hover" id="prodtable">
             <thead class="thead-dark">
                 <tr>
                     <th scope="col">#</th>
                     <th scope="col">Name</th>
                     <th scope="col">Description</th>
+                    <th scope="col">Price 1</th>
+                    <th scope="col">Price 2</th>
+                    <th scope="col">Price 3</th>
                     <th scope="col">Images</th>
-                    <th scope="col">Type</th>
-                    <th scope="col">Tags</th>
-                    <th scope="col">Created By</th>
-                    <th scope="col">Action</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">Bar Code</th>
+                    <th scope="col">Actions</th>
                 </tr>
             </thead>
             <tbody>
-                @forelse ($docs as $doc)
-                @can('view', $doc)
+                @forelse ($products as $product)
                     <tr>
+                        <td class="down">{{$count++}}</td>
+                        <td class="down">{{$product->product_name}}</td>
+                        <td class="down">{{$product->description}}</td>
+                        <td class="down">{{$product->price_1}}</td>
+                        <td class="down">{{$product->price_2}}</td>
+                        <td class="down">{{$product->price_3}}</td>
+
                         @php
-                            $file = $doc->doc_images;
-                            $new = explode(',', $file);
-                            $tags = explode(',',$doc->tags);
+                            $images = $product->images;
+                            $new = explode(',', $images);
                         @endphp
-                        <td class="down">{{ $count++ }}</td>
-                        <td class="down">{{ $doc->document_name }}</td>
-                        <td class="down">{{ $doc->document_desc }}</td>
+
 
                         <td class="down">
-                            @foreach ($new as $n )
+                            @foreach($new as $n)
                                 <li style="list-style: none;">
-                                    <a href="{{ asset('/storage/docs') . '/' . $n }}">{{ $n }}</a>
+                                    <a href="{{ asset('/storage/product') . '/' . $n }}">{{ $n }}</a>
                                 </li>
                             @endforeach
                         </td>
 
-                        <td class="down">{{ $doc->document_type }}</td>
 
-                        <td class="down">
-                            @foreach ($tags as $tag)
-                                <li style="list-style: none;">#{{$tag}}</li>
-                            @endforeach
-                        </td>
-
-                        <td class="down">{{$doc->user->name}}</td>
-
-                        <td class="down">@can('update', $doc)<a class="btn btn-info" href="{{route('docs.single',['document'=>$doc->id])}}">Edit</a>@endcan &nbsp;@can('delete', $doc)<a class="btn btn-danger" href="{{route('docs.remove',['document'=>$doc->id])}}">Remove</a>@endcan</td>
+                        <td class="down">{{$product->status}}</td>
+                        <td class="down">{{$product->bar_code}}</td>
+                        <td class="down"></td>
                     </tr>
-                @endcan
                 @empty
-                    <tr>
-                        <td class="down"><p class="text-danger">No Documents Available</p></td>
-                    </tr>
+                    <div class="alert alert-danger" style="margin-top: 10px;">No Products To Show</div>
                 @endforelse
             </tbody>
         </table>
     </div>
-
-    <script>
-        $(document).ready( function () {
-            $('#docstable').DataTable();
-        });
-    </script>
 </body>
+
+</html>

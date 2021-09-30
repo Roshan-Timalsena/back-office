@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\BillController;
 use App\Http\Controllers\DocumentController;
+use App\Http\Controllers\ProductsController;
 use App\Http\Controllers\StaffController;
 use Illuminate\Support\Facades\Route;
 
@@ -68,4 +69,11 @@ Route::get('document/delete/{id}', [DocumentController::class, 'deleteDocs'])->m
 
 Route::get('/documents/trash', [DocumentController::class, 'getDocsTrash'])->middleware(['auth'])->name('docs.trash');
 //Document Route Ends
+
+//Products Route starts
+Route::get('/products',[ProductsController::class, 'index'])->middleware(['auth'])->name('products.all');
+
+Route::get('/product/add',[ProductsController::class, 'addProduct'])->middleware(['auth'])->name('prod.new');
+Route::post('/product/drop', [ProductsController::class,'prodStore'])->middleware(['auth'])->name('prod.drop');
+Route::post('/product/add',[ProductsController::class, 'store'])->middleware(['auth'])->name('prod.add');
 require __DIR__.'/auth.php';

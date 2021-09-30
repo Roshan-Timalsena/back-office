@@ -41,6 +41,10 @@
             <li class="nav-item">
                 <a href="{{route('docs.all')}}" class="nav-link">Documents</a>
             </li>
+
+            <li class="nav-item">
+                <a href="{{route('products.all')}}" class="nav-link">Products</a>
+            </li>
             
         </ul>
 
