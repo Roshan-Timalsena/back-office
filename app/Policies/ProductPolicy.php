@@ -60,6 +60,12 @@ class ProductPolicy
     public function update(User $user, Product $product)
     {
         //
+        $types = $user->user_type;
+        foreach($types as $type){
+            if($type == 'admin'){
+                return true;
+            }
+        }
     }
 
     /**

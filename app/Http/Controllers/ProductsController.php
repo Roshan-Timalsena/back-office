@@ -56,4 +56,9 @@ class ProductsController extends Controller
         $product->save();
         return redirect()->route('products.all');
     }
+
+    function getSingleProduct(Product $product){
+        $this->authorize('update', $product);
+        return view('products.update',['product'=>$product]);
+    }
 }

@@ -76,4 +76,6 @@ Route::get('/products',[ProductsController::class, 'index'])->middleware(['auth'
 Route::get('/product/add',[ProductsController::class, 'addProduct'])->middleware(['auth'])->name('prod.new');
 Route::post('/product/drop', [ProductsController::class,'prodStore'])->middleware(['auth'])->name('prod.drop');
 Route::post('/product/add',[ProductsController::class, 'store'])->middleware(['auth'])->name('prod.add');
+
+Route::get('/product/update/{product:id}', [ProductsController::class,'getSingleProduct'])->middleware(['auth'])->name('prod.single');
 require __DIR__.'/auth.php';

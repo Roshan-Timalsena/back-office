@@ -71,61 +71,59 @@
 </nav>
 
 <body class="bg-light bg-gradient">
-    <div class="container-fluid table-responsive py-5" style="margin-top: 15px;">
-        
-        @can('create', App\Models\Product::class)
-            <a class="btn btn-primary" href="{{route('prod.new')}}">Add new Product</a>
-        @endcan
-        <table class="table table-bordered table-hover" id="prodtable">
-            <thead class="thead-dark">
-                <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Name</th>
-                    <th scope="col">Description</th>
-                    <th scope="col">Price 1</th>
-                    <th scope="col">Price 2</th>
-                    <th scope="col">Price 3</th>
-                    <th scope="col">Images</th>
-                    <th scope="col">Status</th>
-                    <th scope="col">Bar Code</th>
-                    <th scope="col">Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                @forelse ($products as $product)
-                    <tr>
-                        <td class="down">{{$count++}}</td>
-                        <td class="down">{{$product->product_name}}</td>
-                        <td class="down">{{$product->description}}</td>
-                        <td class="down">{{$product->price_1}}</td>
-                        <td class="down">{{$product->price_2}}</td>
-                        <td class="down">{{$product->price_3}}</td>
+    <div class="container-fluid" align="center">
+        <div class="container" style="margin-top: 80px;">
+            <h1>Add New Product</h1>
+            <form action="#" method="POST" enctype="multipart/form-data" id="prods">
+                @csrf
 
-                        @php
-                            $images = $product->images;
-                            $new = explode(',', $images);
-                        @endphp
+                <div class="form-group">
+                    <label><b>Product Name</b></label>
+                    <input class="form-control" type="text" name="prodname" id="prodname"
+                        value="{{$product->product_name}}">
+                    <span class="text-danger">@error('prodname'){{ $message }} @enderror</span>
+                </div>
 
+                <div class="form-group">
+                    <label><b>Description</b></label>
+                    <input class="form-control" type="text" name="description" id="description"
+                        value="{{$product->description}}">
+                    <span class="text-danger">@error('description'){{ $message }} @enderror</span>
+                </div>
 
-                        <td class="down">
-                            @foreach($new as $n)
-                                <li style="list-style: none;">
-                                    <a href="{{ asset('/storage/product') . '/' . $n }}">{{ $n }}</a>
-                                </li>
-                            @endforeach
-                        </td>
+                <div class="form-group">
+                    <label><b>Price 1</b></label>
+                    <input class="form-control" type="text" name="price1" id="price1" value="{{$product->price_1}}">
+                    <span class="text-danger">@error('price1'){{ $message }} @enderror</span>
+                </div>
 
+                <div class="form-group">
+                    <label><b>Price 2</b></label>
+                    <input class="form-control" type="text" name="price2" id="price2" value="{{$product->price_2}}">
+                    <span class="text-danger">@error('price2'){{ $message }} @enderror</span>
+                </div>
 
-                        <td class="down">{{$product->status}}</td>
-                        <td class="down">{{$product->bar_code}}</td>
-                        <td class="down">@can('update', $product)<a class="btn btn-info" href="{{route('prod.single',['product'=>$product->id])}}">Edit</a>@endcan &nbsp;</td>
-                    </tr>
-                @empty
-                    <div class="alert alert-danger" style="margin-top: 10px;">No Products To Show</div>
-                @endforelse
-            </tbody>
-        </table>
+                <div class="form-group">
+                    <label><b>Price 3</b></label>
+                    <input class="form-control" type="text" name="price3" id="price3" value="{{$product->price_3}}">
+                    <span class="text-danger">@error('price3'){{ $message }} @enderror</span>
+                </div>
+
+                <div class="form-group">
+                    <label><b>Status</b></label>
+                    <input class="form-control" type="text" name="status" id="status" value="{{$product->status}}">
+                    <span class="text-danger">@error('status'){{ $message }} @enderror</span>
+                </div>
+
+                <div class="form-group">
+                    <label><b>Bar Code</b></label>
+                    <input class="form-control" type="text" name="barcode" id="barcode"
+                        value="{{$product->bar_code}}">
+                    <span class="text-danger">@error('barcode'){{ $message }} @enderror</span>
+                </div>
+                <input type="submit" name="submit" id="submit" class="btn btn-primary" value="Update">
+
+            </form>
+        </div>
     </div>
 </body>
-
-</html>
