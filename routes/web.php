@@ -78,4 +78,13 @@ Route::post('/product/drop', [ProductsController::class,'prodStore'])->middlewar
 Route::post('/product/add',[ProductsController::class, 'store'])->middleware(['auth'])->name('prod.add');
 
 Route::get('/product/update/{product:id}', [ProductsController::class,'getSingleProduct'])->middleware(['auth'])->name('prod.single');
+Route::post('/products/update/{product:id}', [ProductsController::class, 'updateProduct'])->middleware(['auth'])->name('prod.update');
+
+Route::get('product/remove/{product:id}',[ProductsController::class, 'remove'])->middleware(['auth'])->name('prod.remove');
+
+Route::get('product/trash', [ProductsController::class, 'getProductsTrash'])->middleware(['auth'])->name('prod.trash');
+
+Route::get('prodcut/restore/{id}',[ProductsController::class, 'restoreProduct'])->middleware(['auth'])->name('prod.restore');
+
+Route::get('prodcut/delete/{id}', [ProductsController::class, 'deleteProduct'])->middleware(['auth'])->name('prod.delete');
 require __DIR__.'/auth.php';

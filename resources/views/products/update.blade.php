@@ -40,7 +40,7 @@
     <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
         <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
             <li class="nav-item active">
-                <a class="nav-link active" href="{{ route('bill.all') }}">Bills</a>
+                <a class="nav-link" href="{{ route('bill.all') }}">Bills</a>
             </li>
 
             <li class="nav-item">
@@ -52,7 +52,7 @@
             </li>
 
             <li class="nav-item">
-                <a href="{{ route('products.all') }}" class="nav-link">Products</a>
+                <a href="{{ route('products.all') }}" class="nav-link active">Products</a>
             </li>
 
             {{-- <li class="nav-item" style="float: right;">
@@ -74,7 +74,7 @@
     <div class="container-fluid" align="center">
         <div class="container" style="margin-top: 80px;">
             <h1>Add New Product</h1>
-            <form action="#" method="POST" enctype="multipart/form-data" id="prods">
+            <form action="{{route('prod.update',['product'=>$product->id])}}" method="POST" enctype="multipart/form-data" id="prods">
                 @csrf
 
                 <div class="form-group">

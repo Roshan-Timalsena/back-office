@@ -19,6 +19,12 @@ class ProductPolicy
     public function viewAny(User $user)
     {
         //
+        $types = $user->user_type;
+        foreach($types as $type){
+            if($type == 'admin'){
+                return true;
+            }
+        }
     }
 
     /**
@@ -78,6 +84,12 @@ class ProductPolicy
     public function delete(User $user, Product $product)
     {
         //
+        $types = $user->user_type;
+        foreach($types as $type){
+            if($type == 'admin'){
+                return true;
+            }
+        }
     }
 
     /**
@@ -87,9 +99,15 @@ class ProductPolicy
      * @param  \App\Models\Product  $product
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function restore(User $user, Product $product)
+    public function restore(User $user)
     {
         //
+        $types = $user->user_type;
+        foreach($types as $type){
+            if($type == 'admin'){
+                return true;
+            }
+        }
     }
 
     /**
@@ -99,8 +117,14 @@ class ProductPolicy
      * @param  \App\Models\Product  $product
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function forceDelete(User $user, Product $product)
+    public function forceDelete(User $user)
     {
         //
+        $types = $user->user_type;
+        foreach($types as $type){
+            if($type == 'admin'){
+                return true;
+            }
+        }
     }
 }

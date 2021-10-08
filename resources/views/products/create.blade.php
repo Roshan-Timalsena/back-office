@@ -49,7 +49,7 @@
 
     <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
         <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-            <li class="nav-item active">
+            <li class="nav-item">
                 <a class="nav-link active" href="{{ route('bill.all') }}">Bills</a>
             </li>
 
@@ -62,7 +62,7 @@
             </li>
 
             <li class="nav-item">
-                <a href="{{ route('products.all') }}" class="nav-link">Products</a>
+                <a href="{{ route('products.all') }}" class="active nav-link">Products</a>
             </li>
 
         </ul>

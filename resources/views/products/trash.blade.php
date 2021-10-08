@@ -76,9 +76,6 @@
         @can('create', App\Models\Product::class)
             <a class="btn btn-primary" href="{{route('prod.new')}}">Add new Product</a>
         @endcan
-        @can('viewAny', App\Models\Product::class)
-            <a href="{{route('prod.trash')}}" style="float: right;" class="btn btn-secondary">View Product Trash</a>   
-        @endcan
         <table class="table table-bordered table-hover" id="prodtable">
             <thead class="thead-dark">
                 <tr>
@@ -121,7 +118,7 @@
 
                         <td class="down">{{$product->status}}</td>
                         <td class="down">{{$product->bar_code}}</td>
-                        <td class="down">@can('update', $product)<a class="btn btn-info" href="{{route('prod.single',['product'=>$product->id])}}">Edit</a>@endcan &nbsp;@can('delete',$product) <a href="{{route('prod.remove',['product'=>$product->id])}}" class="btn btn-danger">Remove</a>@endcan</td>
+                        <td class="down">@can('restore', $product)<a class="btn btn-info" href="{{route('prod.restore',['id'=>$product->id])}}">Restore</a>@endcan &nbsp;@can('forceDelete',$product) <a href="{{route('prod.delete',['id'=>$product->id])}}" class="btn btn-danger">Delete</a>@endcan</td>
                     </tr>
                 @empty
                     <div class="alert alert-danger" style="margin-top: 10px;">No Products To Show</div>
