@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Activity;
 use App\Models\Product;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ProductsController extends Controller
 {
@@ -38,6 +41,8 @@ class ProductsController extends Controller
     function store(Request $request){
         $this->authorize('create', Product::class);
 
+        $user = Auth::id();
+
         $request->validate([
             'prodname'=>'required|max:255'
         ]);
@@ -54,6 +59,15 @@ class ProductsController extends Controller
         $product->bar_code = $request->barcode;
 
         $product->save();
+
+        $activity = new Activity;
+        $activity->name = "Products";
+        $activity->activity_type = "Created";
+        $activity->time = $product->created_at;
+        $activity->user_id = $user;
+        $activity->activity_on = "Added Product ". $product->product_name;
+
+        $activity->save();
         return redirect()->route('products.all');
     }
 
@@ -64,6 +78,9 @@ class ProductsController extends Controller
 
     function updateProduct(Request $request, Product $product){
         $this->authorize('update', $product);
+
+        $user = Auth::id();
+
         $request->validate([
             'prodname'=>'required|max:255'
         ]);
@@ -80,6 +97,15 @@ class ProductsController extends Controller
         $prod->bar_code = $request->barcode;
 
         $prod->save();
+
+        $activity = new Activity;
+        $activity->name = "Products";
+        $activity->activity_type = "Updated";
+        $activity->time = $product->updated_at;
+        $activity->user_id = $user;
+        $activity->activity_on = "Updated Product ". $product->product_name;
+
+        $activity->save();
         return redirect()->route('products.all');
     }
 
@@ -88,6 +114,16 @@ class ProductsController extends Controller
         
         $product->delete();
 
+        $user = Auth::id();
+
+        $activity = new Activity;
+        $activity->name = "Products";
+        $activity->activity_type = "Updated";
+        $activity->time = $product->deleted_at;
+        $activity->user_id = $user;
+        $activity->activity_on = "Removed Product ". $product->product_name;
+
+        $activity->save();
         return redirect()->route('products.all');
     }
 
@@ -101,13 +137,37 @@ class ProductsController extends Controller
     function restoreProduct($id){
         $this->authorize('restore', Product::class);
 
+        $user = Auth::id();
         Product::onlyTrashed()->find($id)->restore();
 
+        $prod = Product::where('id','=',$id)->value('product_name');
+
+        $activity = new Activity;
+        $activity->name = "Products";
+        $activity->activity_type = "Restored";
+        $activity->time = Carbon::now()->toDateTimeString();
+        $activity->user_id = $user;
+        $activity->activity_on = "Restored Product ". $prod;
+
+        $activity->save();
         return redirect()->route('products.all');
     }
 
     function deleteProduct($id){
         $this->authorize('forceDelete', Product::class);
+
+        $user = Auth::id();
+
+        $prod = Product::onlyTrashed()->where('id','=',$id)->value('product_name');
+
+        $activity = new Activity;
+        $activity->name = "Products";
+        $activity->activity_type = "Deleted";
+        $activity->time = Carbon::now()->toDateTimeString();
+        $activity->user_id = $user;
+        $activity->activity_on = "Deleted Product ". $prod;
+
+        $activity->save();
 
         Product::onlyTrashed()->where('id','=',$id)->forceDelete();
 

@@ -154,7 +154,7 @@ class DocumentController extends Controller
 
         $activity->name = "Document";
         $activity->activity_type = "Restored";
-        $activity->time = Carbon::now()->toDateTimeString();;
+        $activity->time = Carbon::now()->toDateTimeString();
         $activity->user_id = $user;
         $activity->activity_on = "Document: " . $doc;
 
