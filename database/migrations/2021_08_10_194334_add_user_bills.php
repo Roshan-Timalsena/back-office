@@ -15,7 +15,7 @@ class AddUserBills extends Migration
     {
         Schema::table('bills', function (Blueprint $table) {
             //
-            // $table->foreignId('user_id')->constrained('users')->after('created_at');
+            $table->foreignId('user_id')->constrained('users')->after('created_at');
         });
     }
 
